@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>La Cité d'Excellence - HOUEKIN MINISTRIES</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&amp;family=Inter:wght@300;400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error": "#ba1a1a",
+                        "inverse-primary": "#ffb4a8",
+                        "on-secondary-container": "#745c00",
+                        "on-tertiary-fixed": "#261a00",
+                        "tertiary-fixed-dim": "#f1bf4c",
+                        "on-secondary-fixed-variant": "#574500",
+                        "tertiary-container": "#795900",
+                        "outline-variant": "#e7bdb6",
+                        "outline": "#926f69",
+                        "primary-container": "#c00000",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed": "#410000",
+                        "surface-container-highest": "#e5e2e1",
+                        "on-background": "#1c1b1b",
+                        "surface-variant": "#e5e2e1",
+                        "secondary-fixed-dim": "#e9c349",
+                        "primary-fixed-dim": "#ffb4a8",
+                        "on-error": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "inverse-surface": "#313030",
+                        "surface": "#fcf9f8",
+                        "on-secondary": "#ffffff",
+                        "primary": "#930000",
+                        "tertiary": "#5b4300",
+                        "on-tertiary-fixed-variant": "#5b4300",
+                        "surface-tint": "#c00000",
+                        "on-tertiary-container": "#ffd272",
+                        "surface-bright": "#fcf9f8",
+                        "secondary-container": "#fed65b",
+                        "on-error-container": "#93000a",
+                        "background": "#fcf9f8",
+                        "surface-container-low": "#f6f3f2",
+                        "primary-fixed": "#ffdad4",
+                        "surface-container-high": "#eae7e7",
+                        "surface-container": "#f0eded",
+                        "on-surface": "#1c1b1b",
+                        "on-primary": "#ffffff",
+                        "on-surface-variant": "#5d3f3b",
+                        "on-primary-fixed-variant": "#930000",
+                        "inverse-on-surface": "#f3f0ef",
+                        "secondary": "#735c00",
+                        "on-primary-container": "#ffcdc5",
+                        "on-secondary-fixed": "#241a00",
+                        "surface-dim": "#dcd9d9",
+                        "secondary-fixed": "#ffe088",
+                        "tertiary-fixed": "#ffdf9e",
+                        "surface-container-lowest": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "container-max": "1280px",
+                        "gutter": "24px",
+                        "margin-mobile": "20px",
+                        "unit": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Montserrat"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-md": ["Montserrat"],
+                        "headline-lg": ["Montserrat"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Montserrat"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["32px", {"lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "1", "letterSpacing": "0.08em", "fontWeight": "600"}],
+                        "headline-md": ["28px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "headline-lg": ["40px", {"lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "display-lg": ["64px", {"lineHeight": "1.1", "letterSpacing": "0.02em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+        }
+        .gold-gradient {
+            background: linear-gradient(135deg, #735c00 0%, #ffe088 100%);
+        }
+        .fade-in {
+            animation: fadeIn 1s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-white/80 dark:bg-inverse-surface/80 backdrop-blur-xl shadow-sm border-b border-outline-variant/10">
+<nav class="flex justify-between items-center px-margin-desktop py-4 max-w-container-max mx-auto">
+<div class="flex items-center gap-4">
+<img alt="Logo La Cité d'Excellence" class="h-12 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQGRCVsqmPtyHFzL9bDS5AoeG8rpSBjdefpxaIuYOdr-iYweA6sgzVfUu3UD8Rlor5wGmu1vBIGIIWpYvSbsRWYWF2pS9W82h5FX-_pNjxrbog6fMHfuHlN7fd3w1m9qLF6pmg4laef7QyJXCLb3dEnDCneNorWCm3VB7QYM-UNGwWEaLG-nfAj5-gxjxkDzjsT62cihzS33pbt2JpMwr6QadyqAZ0BNDFOx7479tILiZI68CMqzcNNigWHtJT7NnzKrc"/>
+<span class="hidden md:block font-headline-md text-headline-md font-bold bg-clip-text text-transparent bg-gradient-to-r from-tertiary to-secondary">La Cité d'Excellence</span>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-semibold" href="#about">About</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-semibold" href="#programs">Programs</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-semibold" href="#sermons">Sermons</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-semibold" href="#events">Events</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-semibold" href="#give">Give</a>
+</div>
+<button class="bg-primary-container text-white px-6 py-2.5 rounded-full font-bold hover:opacity-90 active:scale-95 transition-all shadow-md">
+                Regarder le direct
+            </button>
+</nav>
+</header>
+<!-- Hero Section -->
+<section class="relative h-screen flex items-center justify-center overflow-hidden">
+<div class="absolute inset-0 z-0">
+<div class="absolute inset-0 bg-gradient-to-b from-black/60 via-primary/20 to-black/80 z-10"></div>
+<div class="w-full h-full bg-cover bg-center" data-alt="A cinematic, high-resolution view of a modern church sanctuary during a vibrant worship service. Warm golden light spills from architectural features, illuminating a diverse congregation with their hands raised in prayer. The atmosphere is ethereal and grand, capturing the essence of spiritual excellence and contemporary luxury within HOUEKIN MINISTRIES." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAE_qaf4sojampTRFxduPItqPI3Ii4qJnlNp7J5ioyGAiwPR9NozJl1H7tnCGEpmWG5ti7SGHQBBNrLoRRhZI2csFxTi8O98YXCeZqqNBzOTDkdngJJVjqfjQRfuckMyroq0t8f6w5ab5b9lGkSgQjRBlkuEuOLdJarvjqMnxwoibF--nKb7DZAClIyBpVg-5f855pt0fkgxdwCfqfSTEn2Ydt9eRs9vLuDYejtkm-ZZX3MvS6PFItf7w')"></div>
+</div>
+<div class="relative z-20 text-center text-white px-margin-mobile md:px-margin-desktop max-w-4xl fade-in">
+<h1 class="font-display-lg text-[48px] md:text-display-lg leading-tight mb-4 drop-shadow-lg">Bienvenue à HOUEKIN MINISTRIES</h1>
+<p class="font-headline-lg text-headline-md md:text-headline-lg text-secondary-fixed mb-8 tracking-widest uppercase">La Cité d'Excellence</p>
+<p class="font-body-lg text-body-lg mb-12 opacity-90 max-w-2xl mx-auto">Un lieu où la foi rencontre l'excellence, et où chaque vie est transformée par la puissance de la parole de Dieu.</p>
+<div class="flex flex-col md:flex-row gap-6 justify-center items-center">
+<button class="w-full md:w-auto px-10 py-4 bg-primary text-white rounded-full font-bold text-lg shadow-xl hover:scale-105 transition-transform flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">play_circle</span>
+                    Regarder le direct
+                </button>
+<button class="w-full md:w-auto px-10 py-4 border-2 border-white/30 backdrop-blur-md text-white rounded-full font-bold text-lg hover:bg-white/10 transition-all">
+                    Découvrir l'église
+                </button>
+</div>
+</div>
+<!-- Floating Service Card -->
+<div class="absolute bottom-12 right-margin-desktop hidden lg:block z-30">
+<div class="glass-card p-6 rounded-2xl shadow-2xl flex items-center gap-6 border-l-4 border-secondary animate-bounce-slow">
+<div class="bg-primary-container p-3 rounded-xl text-white">
+<span class="material-symbols-outlined text-4xl">event_available</span>
+</div>
+<div>
+<p class="text-on-surface-variant font-semibold text-sm uppercase tracking-tighter">Prochain Culte</p>
+<p class="text-primary font-bold text-xl">Dimanche à 09h00</p>
+<p class="text-on-surface font-medium opacity-70">Culte d'Excellence &amp; de Percée</p>
+</div>
+</div>
+</div>
+</section>
+<!-- About Section -->
+<section class="py-24 px-margin-desktop max-w-container-max mx-auto overflow-hidden" id="about">
+<div class="grid md:grid-cols-2 gap-20 items-center">
+<div class="relative">
+<div class="absolute -top-10 -left-10 w-40 h-40 bg-secondary/10 rounded-full blur-3xl"></div>
+<div class="rounded-3xl overflow-hidden shadow-2xl relative z-10 border-8 border-white">
+<img class="w-full h-auto object-cover" data-alt="A portrait of the visionary leaders of HOUEKIN MINISTRIES, a couple standing with dignity and warmth in front of a modern minimalist background. They are dressed in premium, elegant attire that reflects their commitment to excellence. The lighting is soft and professional, evoking trust, wisdom, and spiritual authority." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCogJHlgKSUUWFUZgpCaGEctBh4YbOs_MVR7unu27CmiyngpmuP01cPHXIbrmrH5cHu1PQrS4rLQtxM_xTmt8OUTdEj7dI6s09yZke-L7HYGnv9b7ef9SGNwjOApOj4AGShVip1Dh01etaXmfRugvUntEvpn1n3N83ungojNoRowcDViA4XPyiNu_SkbhBC4Yj3Dw2qCbjTnxCaMeCwCWzdITOUoDjFVRHaqUfT-psVwlO97i8Q_2KDPg"/>
+</div>
+<div class="absolute -bottom-6 -right-6 glass-card px-8 py-4 rounded-xl shadow-lg border border-secondary/20 z-20">
+<span class="text-primary font-bold text-3xl">20+</span>
+<span class="text-on-surface-variant block font-medium">Années d'Impact</span>
+</div>
+</div>
+<div>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-6">Bâtir une Génération d'Excellence</h2>
+<p class="text-body-lg text-on-surface-variant mb-10 leading-relaxed">HOUEKIN MINISTRIES est plus qu'une église ; c'est un centre de transformation où nous équipons les croyants pour manifester la gloire de Dieu dans toutes les sphères de la société. Notre vision est ancrée dans la Parole et propulsée par le Saint-Esprit.</p>
+<div class="space-y-6 mb-12">
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-secondary text-3xl">visibility</span>
+<div>
+<h4 class="font-bold text-xl">Vision</h4>
+<p class="text-on-surface-variant">Influencer le monde par l'Évangile de la Gloire de Dieu.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-secondary text-3xl">rocket_launch</span>
+<div>
+<h4 class="font-bold text-xl">Mission</h4>
+<p class="text-on-surface-variant">Former des disciples affermis, marchant dans l'excellence divine.</p>
+</div>
+</div>
+</div>
+<div class="relative pt-12 border-t border-outline-variant/30">
+<h4 class="text-primary font-bold mb-6">Notre Histoire</h4>
+<div class="flex justify-between items-center relative">
+<div class="h-1 bg-outline-variant absolute w-full z-0"></div>
+<div class="relative z-10 text-center">
+<div class="w-4 h-4 bg-primary rounded-full mx-auto mb-2 outline outline-4 outline-background"></div>
+<span class="text-sm font-bold">2004</span>
+</div>
+<div class="relative z-10 text-center">
+<div class="w-4 h-4 bg-primary rounded-full mx-auto mb-2 outline outline-4 outline-background"></div>
+<span class="text-sm font-bold">2012</span>
+</div>
+<div class="relative z-10 text-center">
+<div class="w-4 h-4 bg-secondary rounded-full mx-auto mb-2 outline outline-4 outline-background"></div>
+<span class="text-sm font-bold">2024</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Our Programs -->
+<section class="py-24 bg-surface-container-low" id="programs">
+<div class="px-margin-desktop max-w-container-max mx-auto text-center mb-16">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-4">Nos Rendez-vous Hebdomadaires</h2>
+<p class="text-on-surface-variant max-w-2xl mx-auto">Rejoignez-nous pour des moments intenses de communion et d'édification.</p>
+</div>
+<div class="px-margin-desktop max-w-container-max mx-auto grid md:grid-cols-3 gap-8">
+<!-- Program 1 -->
+<div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all border-b-4 border-transparent hover:border-secondary group">
+<div class="w-16 h-16 bg-secondary/10 rounded-2xl flex items-center justify-center text-secondary mb-6 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1">church</span>
+</div>
+<h3 class="font-bold text-2xl mb-2">Culte de Dimanche</h3>
+<p class="text-on-surface-variant mb-6">Célébration, louange prophétique et message transformateur pour bien commencer la semaine.</p>
+<div class="flex items-center gap-2 text-primary font-bold">
+<span class="material-symbols-outlined text-xl">schedule</span>
+                    Dimanche | 09:00 - 12:00
+                </div>
+</div>
+<!-- Program 2 -->
+<div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all border-b-4 border-transparent hover:border-secondary group">
+<div class="w-16 h-16 bg-secondary/10 rounded-2xl flex items-center justify-center text-secondary mb-6 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1">menu_book</span>
+</div>
+<h3 class="font-bold text-2xl mb-2">École du Sabbat</h3>
+<p class="text-on-surface-variant mb-6">Approfondissement des Écritures et étude biblique thématique pour la croissance spirituelle.</p>
+<div class="flex items-center gap-2 text-primary font-bold">
+<span class="material-symbols-outlined text-xl">schedule</span>
+                    Mercredi | 18:30 - 20:30
+                </div>
+</div>
+<!-- Program 3 -->
+<div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all border-b-4 border-transparent hover:border-secondary group">
+<div class="w-16 h-16 bg-secondary/10 rounded-2xl flex items-center justify-center text-secondary mb-6 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1">fireplace</span>
+</div>
+<h3 class="font-bold text-2xl mb-2">Nuit de Prière</h3>
+<p class="text-on-surface-variant mb-6">Combat spirituel intense et intercession prophétique pour briser tous les jougs.</p>
+<div class="flex items-center gap-2 text-primary font-bold">
+<span class="material-symbols-outlined text-xl">schedule</span>
+                    Vendredi | 22:00 - 04:00
+                </div>
+</div>
+</div>
+</section>
+<!-- Sermons - Netflix Style -->
+<section class="py-24 bg-inverse-surface text-white" id="sermons">
+<div class="px-margin-desktop max-w-container-max mx-auto mb-12 flex justify-between items-end">
+<div>
+<h2 class="font-headline-lg text-headline-lg mb-2">Bibliothèque Digitale</h2>
+<p class="text-surface-variant opacity-80">Regardez et écoutez les derniers messages prophétiques.</p>
+</div>
+<button class="text-secondary font-bold flex items-center gap-2 hover:underline">
+                Voir tout le catalogue <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+<div class="px-margin-desktop max-w-container-max mx-auto space-y-16">
+<!-- Featured -->
+<div class="relative rounded-3xl overflow-hidden aspect-video md:aspect-[21/9] group cursor-pointer">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="A powerful frame from a high-quality church sermon video. A preacher is captured mid-sentence under dramatic stage lighting, with a soft blur on the modern, high-tech sanctuary background. The color palette is rich with deep reds and gold accents, reflecting the premium visual identity of HOUEKIN MINISTRIES." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAgW3pkNfOgtUF5AVQO-KigIMR0xuINk2yoi_iFT9IrGFS2Tna3IMjJXuCJ_n7TqViujsNDVQf8_5gk9500XxSf9h3GHuBdMKOrxwfzPbPUcMRfj0PChXHPag5imRH8pCpBXBNcoMJiSPvAqSetqB9AR450aSyoPipYHFdwtkGTCAICoPnVMTO8BAXtdwzLdm40YkYNLe9-AHASWaRfUm7Y7JPXG4Nbc4ZSs804bibo9PadQpQ1N3GuKQ')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex items-end p-12">
+<div class="max-w-2xl">
+<span class="bg-primary px-4 py-1 rounded text-xs font-bold uppercase mb-4 inline-block">Dernière Sortie</span>
+<h3 class="text-4xl md:text-5xl font-bold mb-4">L'Onction pour une Dimension Nouvelle</h3>
+<p class="text-lg opacity-80 mb-8">Découvrez comment activer la puissance de Dieu pour transformer vos défis en témoignages de gloire.</p>
+<div class="flex gap-4">
+<button class="bg-white text-black px-8 py-3 rounded-lg font-bold flex items-center gap-2 hover:bg-secondary hover:text-white transition-colors">
+<span class="material-symbols-outlined fill-1" style="font-variation-settings: 'FILL' 1">play_arrow</span> Regarder
+                            </button>
+<button class="bg-white/20 backdrop-blur-md text-white px-8 py-3 rounded-lg font-bold hover:bg-white/30 transition-colors">
+                                Plus d'infos
+                            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent Horizontal -->
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+<!-- Sermon Item -->
+<div class="space-y-3 group cursor-pointer">
+<div class="aspect-video rounded-xl overflow-hidden relative">
+<img class="w-full h-full object-cover transition-transform group-hover:scale-110" data-alt="A thumbnail for a spiritual teaching video featuring an abstract glowing bible icon against a dark background with gold dust particles. The style is modern, professional, and visually engaging, aligning with a high-end luxury church brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfuTR2VpxMSaoa6RS8RQp77kEhpsJpN-kKDz6MPqjr8rPSDW7sJoF3gfmNs7q2zl0VHaSEoQOLTcXwoCGeqllz8hDzkiOptdjHCdAA9lg0gRqKQELyHRvTmZnF1kaNyNAvQ_9D2zbk44B5iIopJg-rllADBjmQ0YHiM8K0h96V2jJ_GBQuwtXzSHBiovtEBZ_DaSicJb7YWzONuGjH2NEHwAlgI-9_cdIbcwhkpVcO-zIbsS9sYId2Ng"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+<span class="material-symbols-outlined text-4xl">play_circle</span>
+</div>
+</div>
+<p class="font-bold line-clamp-2">L'Autorité du Croyant dans les Temps de Crise</p>
+<p class="text-sm opacity-60">Rev. Dr. Houekin</p>
+</div>
+<!-- Add 4 more items similarly -->
+<div class="space-y-3 group cursor-pointer">
+<div class="aspect-video rounded-xl overflow-hidden relative">
+<img class="w-full h-full object-cover transition-transform group-hover:scale-110" data-alt="A professional church sermon thumbnail with elegant typography 'Sagesse Divine' overlaying a soft-focus image of a congregation praying. The color scheme features royal red and metallic gold highlights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXpU53hjZQDsIOawAZCj66HKub4224B23tisnyCxQ13JEZcPvU9lHvHCFgMbE_rI_5BT58Xjl6EeeDPytFCZX0FAtdGhzIB15YxGLx-ZJV_YJ4FCw-DbuT-X8IAi24uIycd4sMpZ0EUnae23bolTP2YRns_BuFy2UgFbwQQ-dB4nGfRlq2E9-xX7TELbrbk2j1S576--aRZo7mU8boNpDvq3cM86Pl1Co3okEVKx6gr9JSH48-cxGZMA"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+<span class="material-symbols-outlined text-4xl">play_circle</span>
+</div>
+</div>
+<p class="font-bold line-clamp-2">Secrets pour une Prospérité Biblique Durable</p>
+<p class="text-sm opacity-60">Session d'Impact</p>
+</div>
+<div class="space-y-3 group cursor-pointer">
+<div class="aspect-video rounded-xl overflow-hidden relative">
+<img class="w-full h-full object-cover transition-transform group-hover:scale-110" data-alt="Close-up of a high-quality leather-bound bible with gold-edged pages being opened in a serene, naturally lit environment. Represents the 'Parole Vivante' sermon series for HOUEKIN MINISTRIES." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDf17Ut4DzDUPw3E43u1DfOlWKdMOSnnT1UPNqzQ4cVcm97Aq41SHl-JidXEgUcgU-zdbFFqYzKMp8Pu4Y9jUAwDvOIUI1rLvrGFUvj2GpYaYcvBhaTBx-wl3liFNhwxAoCsDOusRaP09zPU9UWrglH-Jjk0qrPamzhKdqqcYRcoDkO0dKUGqmS8vmIaBRSemL31mtzmjsMLAbpXbO8hHQGyLObe3trfq8DWy7g6rCehO3Nq0FrYlTx9Q"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+<span class="material-symbols-outlined text-4xl">play_circle</span>
+</div>
+</div>
+<p class="font-bold line-clamp-2">La Puissance de la Parole Déclarée</p>
+<p class="text-sm opacity-60">Midi de Prière</p>
+</div>
+<div class="space-y-3 group cursor-pointer">
+<div class="aspect-video rounded-xl overflow-hidden relative">
+<img class="w-full h-full object-cover transition-transform group-hover:scale-110" data-alt="Atmospheric shot of a modern choir singing with passion, backlit by warm golden stage lights. Thumbnail for worship and praise sermon highlights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAY-tfQymKqoVMrPU4vM_4QzNMYGIEwyX_4ZRGjBRpUx7gyMGtBeEB6VlG78tRWlsb1cTJRxEgE7KjWLR9Z7xjddf3EVWe7__4dzFY8Wdzzd3Ge4WCDbCiJN2UWdpmvK5IH9LXbGRzeo814jBNlFZ4PSumVhHfAUm-XfDWV51BvVK5j8zrmCl6hHpV4NjXDA0VABSxlbJV6GTz9q8-9nmPND3_47kLyWOF5tih6lcN51__9ndLw93DheQ"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+<span class="material-symbols-outlined text-4xl">play_circle</span>
+</div>
+</div>
+<p class="font-bold line-clamp-2">Entrer dans la Présence: Louange Vraie</p>
+<p class="text-sm opacity-60">Spécial Adoration</p>
+</div>
+<div class="space-y-3 group cursor-pointer">
+<div class="aspect-video rounded-xl overflow-hidden relative">
+<img class="w-full h-full object-cover transition-transform group-hover:scale-110" data-alt="Dramatic image of a mountain peak at sunrise, symbolizing spiritual breakthrough. Elegant graphic design style consistent with HOUEKIN MINISTRIES luxury branding." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBByhTC9BIPBv5QZXkvWK0ho9WewYr3XdQBhAwZAi2JWYfy1mZk6kelxDUaCML0jPXCgzGjgnGrwt_tjsVaSIWEhgFrkNYPZifG-cD9rKa9Tvx31MkGWMm07ccrdMnAsRuQgIjmYTilSJCG2h6I55xAfloSRuIq6Kxmkv2ubfOFDb4UGT7W_ueyvGP0v0s1ZuglndEAV2J423pKpyEnPSGv7JIsEeB_uBi_vDkemYYBaM5W2v_01CBsYQ"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+<span class="material-symbols-outlined text-4xl">play_circle</span>
+</div>
+</div>
+<p class="font-bold line-clamp-2">Conquérir de Nouveaux Territoires</p>
+<p class="text-sm opacity-60">Conférence 2024</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Donation Section -->
+<section class="py-24 bg-background" id="give">
+<div class="px-margin-desktop max-w-container-max mx-auto">
+<div class="text-center mb-16">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-4">Soutenir l'Œuvre</h2>
+<p class="text-on-surface-variant max-w-2xl mx-auto">Votre générosité nous permet d'impacter des vies et d'étendre le Royaume de Dieu à travers le monde.</p>
+</div>
+<div class="grid md:grid-cols-3 gap-8">
+<!-- Mobile Money -->
+<div class="glass-card p-10 rounded-3xl border border-secondary/10 flex flex-col items-center text-center group hover:bg-secondary/5 transition-all">
+<div class="w-20 h-20 bg-secondary rounded-full flex items-center justify-center text-white mb-8 shadow-xl">
+<span class="material-symbols-outlined text-4xl">smartphone</span>
+</div>
+<h3 class="text-2xl font-bold mb-4">Mobile Money</h3>
+<p class="text-on-surface-variant mb-8 font-semibold">MTN: +229 XX XX XX XX<br/>MOOV: +229 XX XX XX XX</p>
+<button class="mt-auto bg-primary text-white px-8 py-3 rounded-full font-bold w-full hover:opacity-90">Faire un dépôt</button>
+</div>
+<!-- Card -->
+<div class="glass-card p-10 rounded-3xl border border-secondary/10 flex flex-col items-center text-center group bg-primary text-white shadow-2xl scale-105">
+<div class="w-20 h-20 bg-white text-primary rounded-full flex items-center justify-center mb-8 shadow-xl">
+<span class="material-symbols-outlined text-4xl">payments</span>
+</div>
+<h3 class="text-2xl font-bold mb-4">Dime &amp; Offrande Online</h3>
+<p class="opacity-80 mb-8">Utilisez votre carte bancaire ou compte PayPal pour un don sécurisé en quelques clics.</p>
+<button class="mt-auto bg-white text-primary px-8 py-3 rounded-full font-bold w-full hover:bg-secondary hover:text-white transition-colors">Donner maintenant</button>
+</div>
+<!-- Transfer -->
+<div class="glass-card p-10 rounded-3xl border border-secondary/10 flex flex-col items-center text-center group hover:bg-secondary/5 transition-all">
+<div class="w-20 h-20 bg-secondary rounded-full flex items-center justify-center text-white mb-8 shadow-xl">
+<span class="material-symbols-outlined text-4xl">account_balance</span>
+</div>
+<h3 class="text-2xl font-bold mb-4">Virement Bancaire</h3>
+<p class="text-on-surface-variant mb-8 font-semibold">ECOBANK BENIN<br/>RIB: XXXX XXXX XXXX XXXX</p>
+<button class="mt-auto bg-primary text-white px-8 py-3 rounded-full font-bold w-full hover:opacity-90">Copier les infos</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest border-t border-outline-variant py-20">
+<div class="px-margin-desktop max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-4 gap-gutter">
+<div class="col-span-1 md:col-span-1">
+<img alt="Logo" class="h-16 mb-6" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-raIEwgI6KjmHQdW_uvdj-b8vUOL4noL8gGajLaXVsLSJ8hGCddoMEKAq2OEmptxPzdZpQ18Y7_CctGCiSanSbdbayJwk5KTjussftQCl9tOY-6TJdQUVjxRb2k0P4lEVzrKRdTCZMf7Ti5L0bl46CFY21w2G5zqB3cFxz8HNhIOoqSqpZb21Ol0dXhY18-hwR0nas7Udkt7NsWXThuKqWBlAzgtzrd5fTUtV47LWhJb4jRqoaGmkuVMsS0-C1UVaFx8"/>
+<p class="text-on-surface-variant text-body-md mb-8">Bâtir une génération d'excellence par la Puissance du Saint-Esprit.</p>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined text-xl">face_nod</span>
+</a>
+<a class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined text-xl">camera_alt</span>
+</a>
+<a class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined text-xl">mail</span>
+</a>
+</div>
+</div>
+<div>
+<h4 class="font-bold text-primary mb-6">Liens Rapides</h4>
+<ul class="space-y-4 text-on-surface-variant">
+<li><a class="hover:text-tertiary transition-colors" href="#">Nos Programmes</a></li>
+<li><a class="hover:text-tertiary transition-colors" href="#">Regarder en direct</a></li>
+<li><a class="hover:text-tertiary transition-colors" href="#">Derniers Sermons</a></li>
+<li><a class="hover:text-tertiary transition-colors" href="#">Faire un Don</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-primary mb-6">Contact</h4>
+<ul class="space-y-4 text-on-surface-variant">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary">location_on</span> Cotonou, Benin</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary">phone</span> +229 21 00 00 00</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary">mail</span> contact@houekin.org</li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-primary mb-6">Newsletter</h4>
+<p class="text-sm text-on-surface-variant mb-4">Recevez nos dernières actualités et messages d'édification.</p>
+<div class="flex">
+<input class="bg-surface-container border-none rounded-l-xl w-full focus:ring-2 focus:ring-tertiary" placeholder="Email Address" type="email"/>
+<button class="bg-primary text-white px-4 rounded-r-xl hover:opacity-90">
+<span class="material-symbols-outlined">send</span>
+</button>
+</div>
+</div>
+</div>
+<div class="px-margin-desktop max-w-container-max mx-auto mt-20 pt-8 border-t border-outline-variant/10 text-center text-sm text-on-surface-variant/60">
+<p>© 2024 HOUEKIN MINISTRIES - La Cité d'Excellence. Tous droits réservés.</p>
+</div>
+</footer>
+<!-- Micro-interactions Script -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Scroll fade effect for sections
+            const observerOptions = {
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('section').forEach(section => {
+                section.style.opacity = '0';
+                observer.observe(section);
+            });
+
+            // Smooth Scroll active state
+            const navLinks = document.querySelectorAll('nav a');
+            window.addEventListener('scroll', () => {
+                let current = '';
+                document.querySelectorAll('section').forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 100) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                navLinks.forEach(link => {
+                    link.classList.remove('text-primary', 'border-b-2', 'border-primary', 'pb-1');
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.add('text-primary', 'border-b-2', 'border-primary', 'pb-1');
+                    }
+                });
+            });
+        });
+    </script>
+</body></html>

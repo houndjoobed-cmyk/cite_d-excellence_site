@@ -1,0 +1,17 @@
+{
+  "name": "Houekin Admin Dashboard",
+  "short_name": "Houekin Admin",
+  "description": "Tableau de bord d'administration pour Houekin Ministries",
+  "start_url": "/admin",
+  "display": "standalone",
+  "background_color": "#F4F7FB",
+  "theme_color": "#1B2B48",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "192x192 512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
