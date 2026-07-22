@@ -40,10 +40,15 @@ export async function fetchChurchMembers(): Promise<ChurchMember[]> {
       phone: item.phone,
       email: item.email || '',
       emergencyContact: item.emergency_contact,
+      emergencyContactName: item.emergency_contact_name || '',
+      emergencyContactPhone: item.emergency_contact_phone || '',
+      ethnicOrigin: item.ethnic_origin || '',
+      activityDomain: item.activity_domain || '',
       churchArrivalDate: item.church_arrival_date || '',
       department: item.department || '',
       cellLeader: item.cell_leader || '',
       cellGroup: item.cell_group || '',
+      baptismStatus: item.baptism_status || '',
       baptismDate: item.baptism_date || '',
       conversionDate: item.conversion_date || '',
       spiritualGifts: item.spiritual_gifts || '',
@@ -94,11 +99,16 @@ export async function createChurchMember(memberData: Omit<ChurchMember, "id" | "
         neighborhood: memberData.neighborhood || '',
         phone: memberData.phone || '',
         email: memberData.email || '',
-        emergency_contact: memberData.emergencyContact || '',
+        emergency_contact: `${memberData.emergencyContactName || ''} - ${memberData.emergencyContactPhone || ''}`.trim(),
+        emergency_contact_name: memberData.emergencyContactName || '',
+        emergency_contact_phone: memberData.emergencyContactPhone || '',
+        ethnic_origin: memberData.ethnicOrigin || '',
+        activity_domain: memberData.activityDomain || '',
         church_arrival_date: memberData.churchArrivalDate || '',
         department: memberData.department || '',
         cell_leader: memberData.cellLeader || '',
         cell_group: memberData.cellGroup || '',
+        baptism_status: memberData.baptismStatus || '',
         baptism_date: memberData.baptismDate || '',
         conversion_date: memberData.conversionDate || '',
         spiritual_gifts: memberData.spiritualGifts || '',
@@ -158,11 +168,18 @@ export async function updateChurchMember(id: string, updates: Partial<ChurchMemb
     if (updates.neighborhood !== undefined) updateData.neighborhood = updates.neighborhood;
     if (updates.phone !== undefined) updateData.phone = updates.phone;
     if (updates.email !== undefined) updateData.email = updates.email;
-    if (updates.emergencyContact !== undefined) updateData.emergency_contact = updates.emergencyContact;
+    if (updates.emergencyContactName !== undefined || updates.emergencyContactPhone !== undefined) {
+      updateData.emergency_contact = `${updates.emergencyContactName || localMembersMemory[index]?.emergencyContactName || ''} - ${updates.emergencyContactPhone || localMembersMemory[index]?.emergencyContactPhone || ''}`.trim();
+    }
+    if (updates.emergencyContactName !== undefined) updateData.emergency_contact_name = updates.emergencyContactName;
+    if (updates.emergencyContactPhone !== undefined) updateData.emergency_contact_phone = updates.emergencyContactPhone;
+    if (updates.ethnicOrigin !== undefined) updateData.ethnic_origin = updates.ethnicOrigin;
+    if (updates.activityDomain !== undefined) updateData.activity_domain = updates.activityDomain;
     if (updates.churchArrivalDate !== undefined) updateData.church_arrival_date = updates.churchArrivalDate;
     if (updates.department !== undefined) updateData.department = updates.department;
     if (updates.cellLeader !== undefined) updateData.cell_leader = updates.cellLeader;
     if (updates.cellGroup !== undefined) updateData.cell_group = updates.cellGroup;
+    if (updates.baptismStatus !== undefined) updateData.baptism_status = updates.baptismStatus;
     if (updates.baptismDate !== undefined) updateData.baptism_date = updates.baptismDate;
     if (updates.conversionDate !== undefined) updateData.conversion_date = updates.conversionDate;
     if (updates.spiritualGifts !== undefined) updateData.spiritual_gifts = updates.spiritualGifts;

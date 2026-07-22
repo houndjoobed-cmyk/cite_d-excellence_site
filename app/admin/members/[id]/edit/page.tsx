@@ -143,6 +143,14 @@ export default function EditMemberPage() {
                 <option value="Doctorat">Doctorat</option>
               </select>
             </div>
+            <div>
+              <label className="block text-xs font-bold mb-1">Domaine d'Activité / Filière</label>
+              <input type="text" value={formData.activityDomain || ""} onChange={e => handleChange("activityDomain", e.target.value)} className="w-full bg-surface-container-low rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-secondary" />
+            </div>
+            <div>
+              <label className="block text-xs font-bold mb-1">Origine Ethnique</label>
+              <input type="text" value={formData.ethnicOrigin || ""} onChange={e => handleChange("ethnicOrigin", e.target.value)} className="w-full bg-surface-container-low rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-secondary" />
+            </div>
           </div>
           <PhotoUploader value={formData.photoUrl || ""} onChange={url => handleChange("photoUrl", url)} />
         </div>
@@ -167,9 +175,18 @@ export default function EditMemberPage() {
               <label className="block text-xs font-bold mb-1">Adresse Détaillée</label>
               <input type="text" value={formData.address || ""} onChange={e => handleChange("address", e.target.value)} className="w-full bg-surface-container-low rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-secondary" />
             </div>
-            <div className="sm:col-span-2">
-              <label className="block text-xs font-bold mb-1 text-rose-900">Contact d'urgence</label>
-              <input type="text" value={formData.emergencyContact || ""} onChange={e => handleChange("emergencyContact", e.target.value)} className="w-full bg-white border border-rose-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-rose-500" />
+            <div className="sm:col-span-2 p-4 bg-rose-50 border border-rose-200 rounded-2xl">
+              <h4 className="font-bold text-xs text-rose-900 mb-3 uppercase tracking-wider">Contact d'urgence</h4>
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold mb-1 text-rose-900">Nom complet</label>
+                  <input type="text" value={formData.emergencyContactName || ""} onChange={e => handleChange("emergencyContactName", e.target.value)} className="w-full bg-white border border-rose-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-rose-500" />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold mb-1 text-rose-900">Numéro de téléphone</label>
+                  <input type="tel" value={formData.emergencyContactPhone || ""} onChange={e => handleChange("emergencyContactPhone", e.target.value)} className="w-full bg-white border border-rose-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-rose-500" />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -187,9 +204,22 @@ export default function EditMemberPage() {
               <input type="date" value={formData.conversionDate || ""} onChange={e => handleChange("conversionDate", e.target.value)} className="w-full bg-surface-container-low rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-secondary" />
             </div>
             <div>
-              <label className="block text-xs font-bold mb-1">Date de baptême</label>
-              <input type="date" value={formData.baptismDate || ""} onChange={e => handleChange("baptismDate", e.target.value)} className="w-full bg-surface-container-low rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-secondary" />
+              <label className="block text-xs font-bold mb-1">Situation Baptismale</label>
+              <select value={formData.baptismStatus || ""} onChange={e => {
+                handleChange("baptismStatus", e.target.value);
+                if (e.target.value !== "Oui") handleChange("baptismDate", "");
+              }} className="w-full bg-surface-container-low rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-secondary">
+                <option value="">Sélectionner</option>
+                <option value="Oui">Oui, je suis baptisé(e) par immersion</option>
+                <option value="Non">Non, pas encore</option>
+              </select>
             </div>
+            {formData.baptismStatus === "Oui" && (
+              <div className="animate-fade-in">
+                <label className="block text-xs font-bold mb-1">Date de baptême</label>
+                <input type="date" value={formData.baptismDate || ""} onChange={e => handleChange("baptismDate", e.target.value)} className="w-full bg-surface-container-low rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-secondary" />
+              </div>
+            )}
             <div className="sm:col-span-3">
               <label className="block text-xs font-bold mb-1">Dons spirituels</label>
               <textarea rows={2} value={formData.spiritualGifts || ""} onChange={e => handleChange("spiritualGifts", e.target.value)} className="w-full bg-surface-container-low rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-secondary" />

@@ -40,8 +40,9 @@ export default function AdminMembersPage() {
     // Headers
     const headers = [
       "Matricule", "Nom", "Prénom", "Sexe", "Date de naissance", "Téléphone", "Email",
-      "Quartier", "Adresse", "Profession", "Situation Matrimoniale", "Département", "Statut",
-      "Date d'arrivée", "Date de conversion", "Date de baptême"
+      "Quartier", "Adresse", "Profession", "Filière / Domaine", "Origine Ethnique", "Situation Matrimoniale", "Département", "Statut",
+      "Contact d'urgence (Nom)", "Contact d'urgence (Tél)",
+      "Date d'arrivée", "Date de conversion", "Situation Baptismale", "Date de baptême"
     ];
 
     // Data Rows
@@ -56,11 +57,16 @@ export default function AdminMembersPage() {
       m.neighborhood || "",
       m.address || "",
       m.profession || "",
+      m.activityDomain || "",
+      m.ethnicOrigin || "",
       m.maritalStatus || "",
       m.department || "",
       m.status || "",
+      m.emergencyContactName || "",
+      m.emergencyContactPhone || m.emergencyContact || "",
       m.churchArrivalDate || "",
       m.conversionDate || "",
+      m.baptismStatus || "",
       m.baptismDate || ""
     ]);
 

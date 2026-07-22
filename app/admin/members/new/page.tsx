@@ -36,15 +36,19 @@ export default function NewMemberFormPage() {
   const [maritalStatus, setMaritalStatus] = useState("");
   const [profession, setProfession] = useState("");
   const [educationLevel, setEducationLevel] = useState("");
+  const [ethnicOrigin, setEthnicOrigin] = useState("");
+  const [activityDomain, setActivityDomain] = useState("");
 
   const [address, setAddress] = useState("");
   const [neighborhood, setNeighborhood] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [emergencyContact, setEmergencyContact] = useState("");
+  const [emergencyContactName, setEmergencyContactName] = useState("");
+  const [emergencyContactPhone, setEmergencyContactPhone] = useState("");
 
   const [churchArrivalDate, setChurchArrivalDate] = useState("");
   const [conversionDate, setConversionDate] = useState("");
+  const [baptismStatus, setBaptismStatus] = useState("");
   const [baptismDate, setBaptismDate] = useState("");
   const [spiritualGifts, setSpiritualGifts] = useState("");
 
@@ -68,7 +72,8 @@ export default function NewMemberFormPage() {
       if (!phone.trim()) errors.push("Le numéro de téléphone est obligatoire.");
       if (!neighborhood.trim()) errors.push("Le quartier / ville est obligatoire.");
       if (!address.trim()) errors.push("L'adresse détaillée est obligatoire.");
-      if (!emergencyContact.trim()) errors.push("Le contact d'urgence est obligatoire.");
+      if (!emergencyContactName.trim()) errors.push("Le nom du contact d'urgence est obligatoire.");
+      if (!emergencyContactPhone.trim()) errors.push("Le numéro du contact d'urgence est obligatoire.");
     }
     // Step 3 is fully optional
     if (step === 4) {
@@ -105,14 +110,18 @@ export default function NewMemberFormPage() {
       maritalStatus: maritalStatus as any,
       profession: profession.trim(),
       educationLevel: educationLevel || "",
+      ethnicOrigin: ethnicOrigin.trim(),
+      activityDomain: activityDomain.trim(),
       address: address.trim(),
       neighborhood: neighborhood.trim(),
       phone: phone.trim(),
       email: email.trim(),
-      emergencyContact: emergencyContact.trim(),
+      emergencyContactName: emergencyContactName.trim(),
+      emergencyContactPhone: emergencyContactPhone.trim(),
       churchArrivalDate,
       conversionDate,
-      baptismDate,
+      baptismStatus: baptismStatus || "",
+      baptismDate: baptismStatus === "Oui" ? baptismDate : "",
       spiritualGifts: spiritualGifts.trim(),
       department,
       cellLeader: cellLeader.trim(),
@@ -136,10 +145,10 @@ export default function NewMemberFormPage() {
   // Calculate filled fields count for the progress indicator
   const filledCount = [
     lastName, firstName, gender, birthDate, maritalStatus, profession, // step 1
-    phone, neighborhood, address, emergencyContact, // step 2
+    phone, neighborhood, address, emergencyContactName, emergencyContactPhone, // step 2
     department, status // step 4
   ].filter(Boolean).length;
-  const totalRequired = 12;
+  const totalRequired = 13;
   const progressPercent = Math.round((filledCount / totalRequired) * 100);
 
   return (
@@ -197,9 +206,9 @@ export default function NewMemberFormPage() {
                 setStepErrors([]);
                 // Reset ALL fields
                 setLastName(""); setFirstName(""); setGender(""); setBirthDate(""); setPhotoUrl("");
-                setMaritalStatus(""); setProfession(""); setEducationLevel("");
-                setAddress(""); setNeighborhood(""); setPhone(""); setEmail(""); setEmergencyContact("");
-                setChurchArrivalDate(""); setConversionDate(""); setBaptismDate(""); setSpiritualGifts("");
+                setMaritalStatus(""); setProfession(""); setEducationLevel(""); setEthnicOrigin(""); setActivityDomain("");
+                setAddress(""); setNeighborhood(""); setPhone(""); setEmail(""); setEmergencyContactName(""); setEmergencyContactPhone("");
+                setChurchArrivalDate(""); setConversionDate(""); setBaptismStatus(""); setBaptismDate(""); setSpiritualGifts("");
                 setDepartment(""); setCellLeader(""); setCellGroup(""); setStatus("");
               }}
               className="px-6 py-3 bg-surface-container-low text-on-surface font-bold text-xs rounded-2xl hover:bg-surface-container transition-colors"
@@ -374,6 +383,34 @@ export default function NewMemberFormPage() {
                   </div>
                 </div>
 
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block font-bold text-on-surface mb-1">
+                      Domaine d'Activité / Filière <span className="text-on-surface-variant font-normal">(Optionnel)</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Ex: Informatique, Droit, Commerce..."
+                      value={activityDomain}
+                      onChange={(e) => setActivityDomain(e.target.value)}
+                      className="w-full bg-surface-container-low border border-outline-variant/30 rounded-2xl px-4 py-3 text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary font-medium"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-bold text-on-surface mb-1">
+                      Origine Ethnique <span className="text-on-surface-variant font-normal">(Optionnel)</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Ex: Fon, Yoruba, Mina..."
+                      value={ethnicOrigin}
+                      onChange={(e) => setEthnicOrigin(e.target.value)}
+                      className="w-full bg-surface-container-low border border-outline-variant/30 rounded-2xl px-4 py-3 text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary font-medium"
+                    />
+                  </div>
+                </div>
+
                 <PhotoUploader value={photoUrl} onChange={setPhotoUrl} />
               </div>
             )}
@@ -436,15 +473,30 @@ export default function NewMemberFormPage() {
                   </div>
                 </div>
 
-                <div className="p-4 bg-rose-50 rounded-2xl border border-rose-200 space-y-2">
-                  <label className="block font-bold text-rose-900">Personne à contacter en cas d'urgence <span className="text-rose-500">*</span></label>
-                  <input
-                    type="text"
-                    placeholder="Nom, Lien de parenté & Téléphone (Ex: Mme Koffi (Mère) - +229 97 00 11 22)"
-                    value={emergencyContact}
-                    onChange={(e) => setEmergencyContact(e.target.value)}
-                    className="w-full bg-white border border-rose-300 rounded-2xl px-4 py-3 text-on-surface focus:outline-none focus:ring-2 focus:ring-rose-500 font-medium"
-                  />
+                <div className="p-4 bg-rose-50 rounded-2xl border border-rose-200 space-y-4">
+                  <h4 className="font-bold text-rose-900">Personne à contacter en cas d'urgence <span className="text-rose-500">*</span></h4>
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block font-bold text-rose-900 mb-1 text-xs">Nom complet</label>
+                      <input
+                        type="text"
+                        placeholder="Ex: Mme Koffi (Mère)"
+                        value={emergencyContactName}
+                        onChange={(e) => setEmergencyContactName(e.target.value)}
+                        className="w-full bg-white border border-rose-300 rounded-2xl px-4 py-3 text-on-surface focus:outline-none focus:ring-2 focus:ring-rose-500 font-medium"
+                      />
+                    </div>
+                    <div>
+                      <label className="block font-bold text-rose-900 mb-1 text-xs">Numéro de téléphone</label>
+                      <input
+                        type="tel"
+                        placeholder="+229 97 00 11 22"
+                        value={emergencyContactPhone}
+                        onChange={(e) => setEmergencyContactPhone(e.target.value)}
+                        className="w-full bg-white border border-rose-300 rounded-2xl px-4 py-3 text-on-surface focus:outline-none focus:ring-2 focus:ring-rose-500 font-medium"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             )}
@@ -486,18 +538,40 @@ export default function NewMemberFormPage() {
                       className="w-full bg-surface-container-low border border-outline-variant/30 rounded-2xl px-4 py-3 text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary font-medium"
                     />
                   </div>
+                </div>
 
+                <div className="grid sm:grid-cols-2 gap-4 border-t border-outline-variant/20 pt-6">
                   <div>
                     <label className="block font-bold text-on-surface mb-1">
-                      Date de baptême
+                      Situation Baptismale <span className="text-on-surface-variant font-normal">(Optionnel)</span>
                     </label>
-                    <input
-                      type="date"
-                      value={baptismDate}
-                      onChange={(e) => setBaptismDate(e.target.value)}
+                    <select
+                      value={baptismStatus}
+                      onChange={(e) => {
+                         setBaptismStatus(e.target.value);
+                         if (e.target.value !== "Oui") setBaptismDate("");
+                      }}
                       className="w-full bg-surface-container-low border border-outline-variant/30 rounded-2xl px-4 py-3 text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary font-medium"
-                    />
+                    >
+                      <option value="">Sélectionner</option>
+                      <option value="Oui">Oui, je suis baptisé(e) par immersion</option>
+                      <option value="Non">Non, pas encore</option>
+                    </select>
                   </div>
+
+                  {baptismStatus === "Oui" && (
+                    <div className="animate-fade-in">
+                      <label className="block font-bold text-on-surface mb-1">
+                        Date de baptême <span className="text-on-surface-variant font-normal">(Optionnel)</span>
+                      </label>
+                      <input
+                        type="date"
+                        value={baptismDate}
+                        onChange={(e) => setBaptismDate(e.target.value)}
+                        className="w-full bg-surface-container-low border border-outline-variant/30 rounded-2xl px-4 py-3 text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary font-medium"
+                      />
+                    </div>
+                  )}
                 </div>
 
                 <div>
@@ -599,6 +673,7 @@ export default function NewMemberFormPage() {
                     <span><strong>Tél :</strong> {phone || "—"}</span>
                     <span><strong>Quartier :</strong> {neighborhood || "—"}</span>
                     <span><strong>Profession :</strong> {profession || "—"}</span>
+                    <span><strong>Filière/Domaine :</strong> {activityDomain || "—"}</span>
                   </div>
                 </div>
               </div>

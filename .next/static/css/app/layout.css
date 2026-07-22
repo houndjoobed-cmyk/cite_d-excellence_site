@@ -1470,6 +1470,9 @@ video {
 .max-w-container-max {
   max-width: 1280px;
 }
+.max-w-full {
+  max-width: 100%;
+}
 .max-w-lg {
   max-width: 32rem;
 }
@@ -1484,9 +1487,6 @@ video {
 }
 .max-w-xs {
   max-width: 20rem;
-}
-.max-w-full {
-  max-width: 100%;
 }
 .flex-1 {
   flex: 1 1 0%;

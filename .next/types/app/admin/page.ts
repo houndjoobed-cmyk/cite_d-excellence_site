@@ -1,4 +1,4 @@
-// File: C:\Users\HOUNDJO\Downloads\stitch_houekin_ministries_digital_experience\app\admin\page.tsx
+// File: C:\Users\HOUNDJO\Downloads\cite_d'excellence_site\app\admin\page.tsx
 import * as entry from '../../../../app/admin/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

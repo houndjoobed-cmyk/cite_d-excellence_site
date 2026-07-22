@@ -135,11 +135,19 @@ export default function MemberDetailsModal({ member, onClose }: MemberDetailsMod
                 </div>
                 <div>
                   <span className="text-[10px] text-on-surface-variant block">Profession</span>
-                  <span className="font-bold text-on-surface">{member.profession}</span>
+                  <span className="font-bold text-on-surface">{member.profession || "Non renseignée"}</span>
+                </div>
+                <div>
+                  <span className="text-[10px] text-on-surface-variant block">Domaine / Filière</span>
+                  <span className="font-bold text-on-surface">{member.activityDomain || "Non renseigné"}</span>
                 </div>
                 <div>
                   <span className="text-[10px] text-on-surface-variant block">Niveau d'études</span>
                   <span className="font-bold text-on-surface">{member.educationLevel || "Non renseigné"}</span>
+                </div>
+                <div>
+                  <span className="text-[10px] text-on-surface-variant block">Origine Ethnique</span>
+                  <span className="font-bold text-on-surface">{member.ethnicOrigin || "Non renseignée"}</span>
                 </div>
               </div>
             </div>
@@ -174,7 +182,13 @@ export default function MemberDetailsModal({ member, onClose }: MemberDetailsMod
 
               <div className="p-3 bg-rose-50 rounded-2xl border border-rose-200 mt-2">
                 <span className="text-[10px] font-bold text-rose-900 block">Contact en cas d'urgence :</span>
-                <span className="font-bold text-rose-950 text-xs">{member.emergencyContact}</span>
+                {member.emergencyContactName || member.emergencyContactPhone ? (
+                  <span className="font-bold text-rose-950 text-xs">
+                    {member.emergencyContactName} • {member.emergencyContactPhone}
+                  </span>
+                ) : (
+                  <span className="font-bold text-rose-950 text-xs">{member.emergencyContact || "Non renseigné"}</span>
+                )}
               </div>
             </div>
 
@@ -194,8 +208,12 @@ export default function MemberDetailsModal({ member, onClose }: MemberDetailsMod
                   <span className="font-bold text-on-surface">{member.conversionDate || "Non renseignée"}</span>
                 </div>
                 <div>
-                  <span className="text-[10px] text-on-surface-variant block">Baptême par immersion</span>
-                  <span className="font-bold text-on-surface">{member.baptismDate || "Non renseignée"}</span>
+                  <span className="text-[10px] text-on-surface-variant block">Situation Baptismale</span>
+                  <span className="font-bold text-on-surface">
+                    {member.baptismStatus === "Oui" 
+                      ? `Oui${member.baptismDate ? ` (${member.baptismDate})` : ''}` 
+                      : (member.baptismStatus || "Non renseigné")}
+                  </span>
                 </div>
               </div>
               {member.spiritualGifts && (

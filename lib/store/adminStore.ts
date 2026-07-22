@@ -26,11 +26,16 @@ export interface ChurchMember {
   neighborhood: string;
   phone: string;
   email?: string;
-  emergencyContact: string; // Nom & Tél
+  emergencyContact?: string; // Pour compatibilité historique
+  emergencyContactName?: string;
+  emergencyContactPhone?: string;
+  ethnicOrigin?: string;
+  activityDomain?: string;
   churchArrivalDate?: string;
   department?: string;
   cellLeader?: string;
   cellGroup?: string;
+  baptismStatus?: string; // Oui, Non
   baptismDate?: string;
   conversionDate?: string;
   spiritualGifts?: string;
