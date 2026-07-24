@@ -2,12 +2,21 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { CHURCH_INFO } from "@/lib/constants";
 import { Tv, Menu, X, ChevronRight } from "lucide-react";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const router = useRouter();
+
+  const handleLogoClick = (e: React.MouseEvent) => {
+    if (e.detail >= 3) {
+      e.preventDefault();
+      router.push("/admin"); // Redirige vers le dashboard admin secrètement
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -38,7 +47,11 @@ export default function Navbar() {
       <nav className="flex justify-between items-center px-4 md:px-margin-desktop max-w-container-max mx-auto">
         
         {/* Brand Logo & Name */}
-        <Link href="/" className="flex items-center gap-2 group shrink-0 mr-4 lg:mr-6 xl:mr-8">
+        <Link 
+          href="/" 
+          onClick={handleLogoClick}
+          className="flex items-center gap-2 group shrink-0 mr-4 lg:mr-6 xl:mr-8"
+        >
           <img
             src="/logo.png"
             alt="Logo HOUEKIN MINISTRIES"
