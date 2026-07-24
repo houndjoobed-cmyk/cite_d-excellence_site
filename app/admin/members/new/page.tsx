@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { createChurchMember } from "@/lib/services/churchMembersService";
+import { createChurchMember, checkDuplicateMember } from "@/lib/services/churchMembersService";
 import MemberCard from "@/components/members/MemberCard";
 import PhotoUploader from "@/components/members/PhotoUploader";
 import { ChurchMember } from "@/lib/store/adminStore";
@@ -101,6 +101,14 @@ export default function NewMemberFormPage() {
     if (errors.length > 0) return;
 
     setLoading(true);
+
+    const isDuplicate = await checkDuplicateMember(lastName, firstName, phone);
+    if (isDuplicate) {
+      setLoading(false);
+      setStepErrors(["Un membre avec ce nom ou ce numéro existe déjà. Veuillez contacter le secrétariat pour toute modification d'information."]);
+      return;
+    }
+
     const result = await createChurchMember({
       lastName: lastName.trim(),
       firstName: firstName.trim(),

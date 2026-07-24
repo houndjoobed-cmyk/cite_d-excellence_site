@@ -127,6 +127,48 @@ export async function createChurchMember(memberData: Omit<ChurchMember, "id" | "
   return { success: true, member: newMember };
 }
 
+export async function checkDuplicateMember(lastName: string, firstName: string, phone: string): Promise<boolean> {
+  const normLastName = lastName.trim().toLowerCase();
+  const normFirstName = firstName.trim().toLowerCase();
+  const normPhone = phone.trim();
+
+  // Check local memory first
+  const existsInLocal = localMembersMemory.some(m => 
+    (m.phone.trim() === normPhone && normPhone !== "") ||
+    (m.lastName.trim().toLowerCase() === normLastName && m.firstName.trim().toLowerCase() === normFirstName)
+  );
+
+  if (existsInLocal) return true;
+
+  if (!isSupabaseConfigured()) return false;
+
+  try {
+    // Check phone if provided
+    if (normPhone !== "") {
+      const { data: phoneData } = await supabase
+        .from('church_members')
+        .select('id')
+        .eq('phone', normPhone)
+        .limit(1);
+      if (phoneData && phoneData.length > 0) return true;
+    }
+
+    // Check name
+    const { data: nameData } = await supabase
+      .from('church_members')
+      .select('id')
+      .ilike('last_name', lastName.trim())
+      .ilike('first_name', firstName.trim())
+      .limit(1);
+
+    if (nameData && nameData.length > 0) return true;
+  } catch (err) {
+    console.warn("Supabase duplicate check error:", err);
+  }
+
+  return false;
+}
+
 export async function deleteChurchMember(id: string): Promise<boolean> {
   localMembersMemory = localMembersMemory.filter(m => m.id !== id);
 

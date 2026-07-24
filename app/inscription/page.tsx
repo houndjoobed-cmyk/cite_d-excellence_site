@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { createChurchMember } from "@/lib/services/churchMembersService";
+import { createChurchMember, checkDuplicateMember } from "@/lib/services/churchMembersService";
 import MemberCard from "@/components/members/MemberCard";
 import PhotoUploader from "@/components/members/PhotoUploader";
 import { ChurchMember } from "@/lib/store/adminStore";
@@ -23,7 +23,9 @@ export default function PublicRegistrationPage() {
   const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [createdMember, setCreatedMember] = useState<ChurchMember | null>(null);
+  const [showThankYouPopup, setShowThankYouPopup] = useState(false);
   const [stepErrors, setStepErrors] = useState<string[]>([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   // Form State
   const [lastName, setLastName] = useState("");
@@ -39,10 +41,15 @@ export default function PublicRegistrationPage() {
   const [neighborhood, setNeighborhood] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [emergencyContact, setEmergencyContact] = useState("");
+  const [emergencyContactName, setEmergencyContactName] = useState("");
+  const [emergencyContactPhone, setEmergencyContactPhone] = useState("");
+
+  const [ethnicOrigin, setEthnicOrigin] = useState("");
+  const [activityDomain, setActivityDomain] = useState("");
 
   const [churchArrivalDate, setChurchArrivalDate] = useState("");
   const [conversionDate, setConversionDate] = useState("");
+  const [baptismStatus, setBaptismStatus] = useState("");
   const [baptismDate, setBaptismDate] = useState("");
   const [spiritualGifts, setSpiritualGifts] = useState("");
 
@@ -53,6 +60,61 @@ export default function PublicRegistrationPage() {
   // Public users are implicitly "Nouveau Fidèle" or "Membre Actif", let's default to "Nouveau Fidèle"
   // but let them choose their department
   const status = "Nouveau Fidèle";
+
+  // Charger depuis le localStorage au premier affichage
+  useEffect(() => {
+    const savedData = localStorage.getItem("church_registration_draft");
+    if (savedData) {
+      try {
+        const parsed = JSON.parse(savedData);
+        if (parsed.currentStep) setCurrentStep(parsed.currentStep);
+        if (parsed.lastName) setLastName(parsed.lastName);
+        if (parsed.firstName) setFirstName(parsed.firstName);
+        if (parsed.gender) setGender(parsed.gender);
+        if (parsed.birthDate) setBirthDate(parsed.birthDate);
+        if (parsed.photoUrl) setPhotoUrl(parsed.photoUrl);
+        if (parsed.maritalStatus) setMaritalStatus(parsed.maritalStatus);
+        if (parsed.profession) setProfession(parsed.profession);
+        if (parsed.educationLevel) setEducationLevel(parsed.educationLevel);
+        if (parsed.address) setAddress(parsed.address);
+        if (parsed.neighborhood) setNeighborhood(parsed.neighborhood);
+        if (parsed.phone) setPhone(parsed.phone);
+        if (parsed.email) setEmail(parsed.email);
+        if (parsed.emergencyContactName) setEmergencyContactName(parsed.emergencyContactName);
+        if (parsed.emergencyContactPhone) setEmergencyContactPhone(parsed.emergencyContactPhone);
+        if (parsed.ethnicOrigin) setEthnicOrigin(parsed.ethnicOrigin);
+        if (parsed.activityDomain) setActivityDomain(parsed.activityDomain);
+        if (parsed.churchArrivalDate) setChurchArrivalDate(parsed.churchArrivalDate);
+        if (parsed.conversionDate) setConversionDate(parsed.conversionDate);
+        if (parsed.baptismStatus) setBaptismStatus(parsed.baptismStatus);
+        if (parsed.baptismDate) setBaptismDate(parsed.baptismDate);
+        if (parsed.spiritualGifts) setSpiritualGifts(parsed.spiritualGifts);
+        if (parsed.department) setDepartment(parsed.department);
+        if (parsed.cellLeader) setCellLeader(parsed.cellLeader);
+        if (parsed.cellGroup) setCellGroup(parsed.cellGroup);
+      } catch (e) {
+        console.warn("Erreur de chargement du brouillon", e);
+      }
+    }
+    setIsLoaded(true);
+  }, []);
+
+  // Sauvegarder automatiquement lors des modifications
+  useEffect(() => {
+    if (!isLoaded || createdMember) return;
+    const draft = {
+      currentStep, lastName, firstName, gender, birthDate, photoUrl, maritalStatus,
+      profession, educationLevel, address, neighborhood, phone, email, emergencyContactName,
+      emergencyContactPhone, ethnicOrigin, activityDomain, churchArrivalDate, conversionDate,
+      baptismStatus, baptismDate, spiritualGifts, department, cellLeader, cellGroup
+    };
+    localStorage.setItem("church_registration_draft", JSON.stringify(draft));
+  }, [
+    isLoaded, createdMember, currentStep, lastName, firstName, gender, birthDate, photoUrl, maritalStatus,
+    profession, educationLevel, address, neighborhood, phone, email, emergencyContactName,
+    emergencyContactPhone, ethnicOrigin, activityDomain, churchArrivalDate, conversionDate,
+    baptismStatus, baptismDate, spiritualGifts, department, cellLeader, cellGroup
+  ]);
 
   function validateStep(step: number): string[] {
     const errors: string[] = [];
@@ -68,7 +130,8 @@ export default function PublicRegistrationPage() {
       if (!phone.trim()) errors.push("Le numéro de téléphone est obligatoire.");
       if (!neighborhood.trim()) errors.push("Le quartier / ville est obligatoire.");
       if (!address.trim()) errors.push("L'adresse détaillée est obligatoire.");
-      if (!emergencyContact.trim()) errors.push("Le contact d'urgence est obligatoire.");
+      if (!emergencyContactName.trim()) errors.push("Le nom du contact d'urgence est obligatoire.");
+      if (!emergencyContactPhone.trim()) errors.push("Le numéro du contact d'urgence est obligatoire.");
     }
     // Step 3 is optional
     return errors;
@@ -92,6 +155,14 @@ export default function PublicRegistrationPage() {
     if (errors.length > 0) return;
 
     setLoading(true);
+
+    const isDuplicate = await checkDuplicateMember(lastName, firstName, phone);
+    if (isDuplicate) {
+      setLoading(false);
+      setStepErrors(["Un membre avec ce nom ou ce numéro existe déjà. Veuillez contacter le secrétariat pour toute modification d'information."]);
+      return;
+    }
+
     const result = await createChurchMember({
       lastName: lastName.trim(),
       firstName: firstName.trim(),
@@ -105,10 +176,14 @@ export default function PublicRegistrationPage() {
       neighborhood: neighborhood.trim(),
       phone: phone.trim(),
       email: email.trim(),
-      emergencyContact: emergencyContact.trim(),
+      ethnicOrigin: ethnicOrigin.trim(),
+      activityDomain: activityDomain.trim(),
+      emergencyContactName: emergencyContactName.trim(),
+      emergencyContactPhone: emergencyContactPhone.trim(),
       churchArrivalDate,
       conversionDate,
-      baptismDate,
+      baptismStatus: baptismStatus || "",
+      baptismDate: baptismStatus === "Oui" ? baptismDate : "",
       spiritualGifts: spiritualGifts.trim(),
       department,
       cellLeader: cellLeader.trim(),
@@ -119,6 +194,8 @@ export default function PublicRegistrationPage() {
     setLoading(false);
     if (result.member) {
       setCreatedMember(result.member);
+      setShowThankYouPopup(true);
+      localStorage.removeItem("church_registration_draft"); // Nettoyer après succès
     }
   }
 
@@ -131,9 +208,9 @@ export default function PublicRegistrationPage() {
 
   const filledCount = [
     lastName, firstName, gender, birthDate, maritalStatus, profession,
-    phone, neighborhood, address, emergencyContact
+    phone, neighborhood, address, emergencyContactName, emergencyContactPhone
   ].filter(Boolean).length;
-  const totalRequired = 10;
+  const totalRequired = 11;
   const progressPercent = Math.round((filledCount / totalRequired) * 100);
 
   return (
@@ -290,6 +367,13 @@ export default function PublicRegistrationPage() {
                       <input type="text" placeholder="Ex: Ingénieur, Étudiant..." value={profession} onChange={(e) => setProfession(e.target.value)} className="w-full bg-surface-container-low border border-outline-variant/30 rounded-2xl px-4 py-3 text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary font-medium" />
                     </div>
                     <div>
+                      <label className="block font-bold text-on-surface mb-1">Domaine d'Activité / Filière <span className="text-on-surface-variant font-normal">(Optionnel)</span></label>
+                      <input type="text" placeholder="Ex: Informatique, Droit..." value={activityDomain} onChange={(e) => setActivityDomain(e.target.value)} className="w-full bg-surface-container-low border border-outline-variant/30 rounded-2xl px-4 py-3 text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary font-medium" />
+                    </div>
+                  </div>
+
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div>
                       <label className="block font-bold text-on-surface mb-1">Niveau d'études <span className="text-on-surface-variant font-normal">(Optionnel)</span></label>
                       <select value={educationLevel} onChange={(e) => setEducationLevel(e.target.value)} className="w-full bg-surface-container-low border border-outline-variant/30 rounded-2xl px-4 py-3 text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary font-medium">
                         <option value="">Sélectionner</option>
@@ -300,6 +384,10 @@ export default function PublicRegistrationPage() {
                         <option value="Master / DESS">Master / DESS</option>
                         <option value="Doctorat">Doctorat</option>
                       </select>
+                    </div>
+                    <div>
+                      <label className="block font-bold text-on-surface mb-1">Origine Ethnique <span className="text-on-surface-variant font-normal">(Optionnel)</span></label>
+                      <input type="text" placeholder="Ex: Fon, Yoruba..." value={ethnicOrigin} onChange={(e) => setEthnicOrigin(e.target.value)} className="w-full bg-surface-container-low border border-outline-variant/30 rounded-2xl px-4 py-3 text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary font-medium" />
                     </div>
                   </div>
 
@@ -337,9 +425,18 @@ export default function PublicRegistrationPage() {
                     </div>
                   </div>
 
-                  <div className="p-4 bg-rose-50 rounded-2xl border border-rose-200 space-y-2">
-                    <label className="block font-bold text-rose-900">Contact en cas d'urgence <span className="text-rose-500">*</span></label>
-                    <input type="text" placeholder="Nom & Téléphone (Ex: Mme Koffi - +229 97 00 11 22)" value={emergencyContact} onChange={(e) => setEmergencyContact(e.target.value)} className="w-full bg-white border border-rose-300 rounded-2xl px-4 py-3 text-on-surface focus:outline-none focus:ring-2 focus:ring-rose-500 font-medium" />
+                  <div className="p-4 bg-rose-50 rounded-2xl border border-rose-200 space-y-4">
+                    <label className="block font-bold text-rose-900">Contact en cas d'urgence</label>
+                    <div className="grid sm:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block font-bold text-rose-900 mb-1 text-[11px]">Nom complet <span className="text-rose-500">*</span></label>
+                        <input type="text" placeholder="Ex: Mme Koffi (Mère)" value={emergencyContactName} onChange={(e) => setEmergencyContactName(e.target.value)} className="w-full bg-white border border-rose-300 rounded-2xl px-4 py-3 text-on-surface focus:outline-none focus:ring-2 focus:ring-rose-500 font-medium" />
+                      </div>
+                      <div>
+                        <label className="block font-bold text-rose-900 mb-1 text-[11px]">Numéro de téléphone <span className="text-rose-500">*</span></label>
+                        <input type="tel" placeholder="+229 97 00 11 22" value={emergencyContactPhone} onChange={(e) => setEmergencyContactPhone(e.target.value)} className="w-full bg-white border border-rose-300 rounded-2xl px-4 py-3 text-on-surface focus:outline-none focus:ring-2 focus:ring-rose-500 font-medium" />
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
@@ -355,7 +452,7 @@ export default function PublicRegistrationPage() {
                     <span className="text-xs text-on-surface-variant font-semibold bg-surface-container-low px-3 py-1 rounded-full">Optionnel</span>
                   </div>
 
-                  <div className="grid sm:grid-cols-3 gap-4">
+                  <div className="grid sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block font-bold text-on-surface mb-1">Arrivée à l'église</label>
                       <input type="date" value={churchArrivalDate} onChange={(e) => setChurchArrivalDate(e.target.value)} className="w-full bg-surface-container-low border border-outline-variant/30 rounded-2xl px-4 py-3 text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary font-medium" />
@@ -364,10 +461,36 @@ export default function PublicRegistrationPage() {
                       <label className="block font-bold text-on-surface mb-1">Date de conversion</label>
                       <input type="date" value={conversionDate} onChange={(e) => setConversionDate(e.target.value)} className="w-full bg-surface-container-low border border-outline-variant/30 rounded-2xl px-4 py-3 text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary font-medium" />
                     </div>
+                  </div>
+
+                  <div className="grid sm:grid-cols-2 gap-4 border-t border-outline-variant/20 pt-6">
                     <div>
-                      <label className="block font-bold text-on-surface mb-1">Date de baptême</label>
-                      <input type="date" value={baptismDate} onChange={(e) => setBaptismDate(e.target.value)} className="w-full bg-surface-container-low border border-outline-variant/30 rounded-2xl px-4 py-3 text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary font-medium" />
+                      <label className="block font-bold text-on-surface mb-1">Situation Baptismale</label>
+                      <select
+                        value={baptismStatus}
+                        onChange={(e) => {
+                           setBaptismStatus(e.target.value);
+                           if (e.target.value !== "Oui") setBaptismDate("");
+                        }}
+                        className="w-full bg-surface-container-low border border-outline-variant/30 rounded-2xl px-4 py-3 text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary font-medium"
+                      >
+                        <option value="">Sélectionner</option>
+                        <option value="Oui">Oui, je suis baptisé(e) par immersion</option>
+                        <option value="Non">Non, pas encore</option>
+                      </select>
                     </div>
+
+                    {baptismStatus === "Oui" && (
+                      <div className="animate-fade-in">
+                        <label className="block font-bold text-on-surface mb-1">Date de baptême</label>
+                        <input
+                          type="date"
+                          value={baptismDate}
+                          onChange={(e) => setBaptismDate(e.target.value)}
+                          className="w-full bg-surface-container-low border border-outline-variant/30 rounded-2xl px-4 py-3 text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary font-medium"
+                        />
+                      </div>
+                    )}
                   </div>
 
                   <div>
@@ -452,6 +575,28 @@ export default function PublicRegistrationPage() {
         )}
 
       </div>
+
+      {/* Thank You Popup */}
+      {showThankYouPopup && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+          <div className="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl text-center space-y-6 transform scale-100 transition-transform">
+            <div className="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Sparkles className="w-10 h-10" />
+            </div>
+            <h3 className="font-display font-bold text-2xl text-primary">Merci pour votre inscription !</h3>
+            <p className="text-sm text-on-surface-variant leading-relaxed">
+              Nous sommes ravis de vous compter parmi nous au sein de <strong className="text-secondary">HOUEKIN MINISTRIES</strong>.<br/><br/>
+              Que la grâce et la paix de notre Seigneur Jésus-Christ soient avec vous !
+            </p>
+            <button
+              onClick={() => setShowThankYouPopup(false)}
+              className="w-full py-4 bg-primary text-white font-bold rounded-2xl hover:bg-primary-container transition-colors shadow-lg active:scale-95"
+            >
+              Découvrir ma carte membre
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
