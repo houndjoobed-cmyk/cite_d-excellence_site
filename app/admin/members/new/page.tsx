@@ -584,15 +584,19 @@ export default function NewMemberFormPage() {
 
                 <div>
                   <label className="block font-bold text-on-surface mb-1">
-                    Dons spirituels ou Ministères
+                    Ministères
                   </label>
-                  <textarea
-                    rows={3}
-                    placeholder="Ex: Intercession, Chant, Enseignement, Prise de vue média..."
+                  <select
                     value={spiritualGifts}
                     onChange={(e) => setSpiritualGifts(e.target.value)}
                     className="w-full bg-surface-container-low border border-outline-variant/30 rounded-2xl px-4 py-3 text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary font-medium"
-                  ></textarea>
+                  >
+                    <option value="">-- Aucun / Membre Normal --</option>
+                    <option value="Pasteur Principal">Pasteur Principal</option>
+                    <option value="Pasteur">Pasteur</option>
+                    <option value="Assistant Pasteur">Assistant Pasteur</option>
+                    <option value="Pasteur Junior">Pasteur Junior</option>
+                  </select>
                 </div>
               </div>
             )}

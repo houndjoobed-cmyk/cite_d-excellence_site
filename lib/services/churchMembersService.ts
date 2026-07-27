@@ -9,18 +9,20 @@ export async function fetchChurchMembers(): Promise<ChurchMember[]> {
   }
 
   try {
-    const fetchPromise = supabase
+    console.log("Fetching members from Supabase...");
+    const { data, error } = await supabase
       .from('church_members')
       .select('*')
       .order('created_at', { ascending: false });
 
-    const timeoutPromise = new Promise<{ data: any; error: any }>((resolve) =>
-      setTimeout(() => resolve({ data: null, error: 'Timeout' }), 2500)
-    );
+    if (error) {
+      console.error("Supabase fetch error:", error);
+      return localMembersMemory;
+    }
+    
+    console.log(`Fetched ${data?.length} members from Supabase.`);
 
-    const { data, error } = await Promise.race([fetchPromise, timeoutPromise]) as any;
-
-    if (error || !data || !Array.isArray(data) || data.length === 0) {
+    if (!data || !Array.isArray(data) || data.length === 0) {
       return localMembersMemory;
     }
 
@@ -236,5 +238,60 @@ export async function updateChurchMember(id: string, updates: Partial<ChurchMemb
   } catch (err) {
     console.warn("Exception lors de la mise à jour Supabase:", err);
     return { success: false, member: null };
+  }
+}
+
+export async function getChurchMemberByNumber(memberNumber: string): Promise<ChurchMember | null> {
+  const normNumber = memberNumber.trim().toUpperCase();
+  const localMatch = localMembersMemory.find(m => m.memberNumber.toUpperCase() === normNumber);
+  
+  if (localMatch) return localMatch;
+
+  if (!isSupabaseConfigured()) return null;
+
+  try {
+    const { data, error } = await supabase
+      .from('church_members')
+      .select('*')
+      .ilike('member_number', normNumber)
+      .limit(1)
+      .single();
+
+    if (error || !data) return null;
+
+    return {
+      id: data.id,
+      memberNumber: data.member_number,
+      lastName: data.last_name,
+      firstName: data.first_name,
+      gender: data.gender,
+      birthDate: data.birth_date,
+      photoUrl: data.photo_url || '',
+      maritalStatus: data.marital_status,
+      profession: data.profession,
+      educationLevel: data.education_level || '',
+      address: data.address,
+      neighborhood: data.neighborhood,
+      phone: data.phone,
+      email: data.email || '',
+      emergencyContact: data.emergency_contact,
+      emergencyContactName: data.emergency_contact_name || '',
+      emergencyContactPhone: data.emergency_contact_phone || '',
+      ethnicOrigin: data.ethnic_origin || '',
+      activityDomain: data.activity_domain || '',
+      churchArrivalDate: data.church_arrival_date || '',
+      department: data.department || '',
+      cellLeader: data.cell_leader || '',
+      cellGroup: data.cell_group || '',
+      baptismStatus: data.baptism_status || '',
+      baptismDate: data.baptism_date || '',
+      conversionDate: data.conversion_date || '',
+      spiritualGifts: data.spiritual_gifts || '',
+      status: data.status || 'Membre Actif',
+      registrationDate: data.registration_date || ''
+    };
+  } catch (err) {
+    console.warn("Error fetching member by number:", err);
+    return null;
   }
 }

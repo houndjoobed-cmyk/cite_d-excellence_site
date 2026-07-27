@@ -221,8 +221,14 @@ export default function EditMemberPage() {
               </div>
             )}
             <div className="sm:col-span-3">
-              <label className="block text-xs font-bold mb-1">Dons spirituels</label>
-              <textarea rows={2} value={formData.spiritualGifts || ""} onChange={e => handleChange("spiritualGifts", e.target.value)} className="w-full bg-surface-container-low rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-secondary" />
+              <label className="block text-xs font-bold mb-1">Ministères</label>
+              <select value={formData.spiritualGifts || ""} onChange={e => handleChange("spiritualGifts", e.target.value)} className="w-full bg-surface-container-low rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-secondary">
+                <option value="">Aucun / Membre Normal</option>
+                <option value="Pasteur Principal">Pasteur Principal</option>
+                <option value="Pasteur">Pasteur</option>
+                <option value="Assistant Pasteur">Assistant Pasteur</option>
+                <option value="Pasteur Junior">Pasteur Junior</option>
+              </select>
             </div>
           </div>
         </div>

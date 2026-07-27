@@ -12,11 +12,13 @@ export default function AdminMembersPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDept, setSelectedDept] = useState("Tous");
   const [selectedMember, setSelectedMember] = useState<ChurchMember | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function loadData() {
       const data = await fetchChurchMembers();
       setMembers(data);
+      setIsLoading(false);
     }
     loadData();
   }, []);
@@ -96,9 +98,11 @@ export default function AdminMembersPage() {
         <div>
           <h2 className="font-display font-bold text-xl text-primary">Annuaire Pastoral & Cartes des Fidèles</h2>
           <p className="text-xs text-on-surface-variant">
-            {members.length > 0
-              ? `${members.length} fidèle(s) enregistré(s) dans la base de données.`
-              : "Aucun fidèle enregistré. Commencez par ajouter un membre."
+            {isLoading 
+              ? "Chargement des données en cours..."
+              : members.length > 0
+                ? `${members.length} fidèle(s) enregistré(s) dans la base de données.`
+                : "Aucun fidèle enregistré. Commencez par ajouter un membre."
             }
           </p>
         </div>
@@ -156,8 +160,35 @@ export default function AdminMembersPage() {
         </div>
       )}
 
+      {/* Skeleton Loading State */}
+      {isLoading && (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[1, 2, 3, 4, 5, 6].map((i) => (
+            <div key={i} className="bg-white p-6 rounded-3xl border border-outline-variant/20 shadow-md flex flex-col justify-between space-y-4 animate-pulse">
+              <div className="flex items-start gap-4">
+                <div className="w-16 h-20 rounded-2xl bg-surface-container-low shrink-0 border-2 border-outline-variant/10"></div>
+                <div className="space-y-2 w-full pt-1">
+                  <div className="h-3 bg-surface-container-low rounded-md w-1/4"></div>
+                  <div className="h-4 bg-surface-container-low rounded-md w-3/4"></div>
+                  <div className="h-3 bg-surface-container-low rounded-md w-1/3"></div>
+                  <div className="h-3 bg-surface-container-low rounded-md w-1/2 mt-2"></div>
+                </div>
+              </div>
+              <div className="pt-3 border-t border-outline-variant/20 flex items-center justify-between">
+                <div className="h-5 bg-surface-container-low rounded-xl w-24"></div>
+                <div className="flex gap-2">
+                  <div className="h-8 w-28 bg-surface-container-low rounded-xl"></div>
+                  <div className="h-8 w-8 bg-surface-container-low rounded-xl"></div>
+                  <div className="h-8 w-8 bg-surface-container-low rounded-xl"></div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
       {/* Empty State */}
-      {members.length === 0 && (
+      {!isLoading && members.length === 0 && (
         <div className="bg-white p-12 rounded-3xl border border-outline-variant/20 shadow-md text-center space-y-4">
           <div className="w-16 h-16 bg-secondary/10 text-secondary rounded-full flex items-center justify-center mx-auto">
             <UserPlus className="w-8 h-8" />
@@ -177,7 +208,7 @@ export default function AdminMembersPage() {
       )}
 
       {/* Members Grid */}
-      {filteredMembers.length > 0 && (
+      {!isLoading && filteredMembers.length > 0 && (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredMembers.map((member) => (
             <div

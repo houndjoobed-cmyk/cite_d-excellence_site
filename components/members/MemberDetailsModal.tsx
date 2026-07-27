@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { ChurchMember } from "@/lib/store/adminStore";
 import MemberCard from "./MemberCard";
 import { 
   X, 
   CreditCard, 
+  Edit2,
   UserCheck, 
   Phone, 
   Mail, 
@@ -63,12 +65,24 @@ export default function MemberDetailsModal({ member, onClose }: MemberDetailsMod
             </button>
           </div>
 
-          <button
-            onClick={onClose}
-            className="p-2 text-on-surface-variant hover:text-on-surface rounded-full hover:bg-surface-container transition-colors"
-          >
-            <X className="w-5 h-5" />
-          </button>
+          <div className="flex items-center gap-2">
+            <Link
+              href={`/admin/members/${member.id}/edit`}
+              onClick={onClose}
+              className="px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-2xl text-xs font-bold transition-colors flex items-center gap-2"
+              title="Modifier ce membre"
+            >
+              <Edit2 className="w-4 h-4" />
+              <span className="hidden sm:inline">Modifier</span>
+            </Link>
+            <button
+              onClick={onClose}
+              className="p-2 text-on-surface-variant hover:text-on-surface rounded-full hover:bg-surface-container transition-colors"
+              title="Fermer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
         </div>
 
         {/* Tab 1: ID Card View */}

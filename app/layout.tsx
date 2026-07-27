@@ -67,7 +67,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${montserrat.variable} ${inter.variable} bg-background text-on-surface font-sans overflow-x-hidden w-full`}>
+      <body suppressHydrationWarning className={`${montserrat.variable} ${inter.variable} bg-background text-on-surface font-sans overflow-x-hidden w-full`}>
         <ConditionalLayout>
           {children}
         </ConditionalLayout>

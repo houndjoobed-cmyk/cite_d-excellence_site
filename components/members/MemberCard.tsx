@@ -12,21 +12,64 @@ interface MemberCardProps {
 }
 
 const CardContent = ({ member, isPdfMode = false }: { member: ChurchMember, isPdfMode?: boolean }) => {
+  // Theme selection based on ministry (spiritualGifts)
+  const ministry = member.spiritualGifts || "";
+  const isPasteurPrincipal = ministry === "Pasteur Principal";
+  const isNormalMember = ministry === "";
+
+  // Base setup (Red - Pasteurs, Assistant, Junior)
+  let themeBg = "bg-gradient-to-br from-[#4a0a0a] via-[#8a0000] to-[#2a0000]";
+  let themeBorderTop = "border border-[#D4AF37]/20";
+  let themeAccent = "text-[#D4AF37]"; // Gold text in red card
+  let themeBadgeBg = "bg-[#7a6215] text-white"; // Gold badge in red card
+  let themeAccentBg = "bg-white/10";
+  let themeAccentBorder = "border-[#D4AF37]/30";
+  let themeGlow = "bg-[#D4AF37]/10";
+  let themeHex = "#D4AF37";
+  let themeQRColor = "930000";
+  let qrBgColor = "FFFFFF"; // White QR background
+
+  if (isPasteurPrincipal) {
+    // Gold
+    themeBg = "bg-gradient-to-br from-[#6b5811] via-[#b08d13] to-[#261d02]";
+    themeBorderTop = "border border-[#D4AF37]/30";
+    themeAccent = "text-[#fceb9f]"; // Lighter gold text for contrast
+    themeBadgeBg = "bg-[#917415] text-white"; 
+    themeAccentBg = "bg-white/10";
+    themeAccentBorder = "border-[#e8ce71]/40";
+    themeGlow = "bg-[#fceb9f]/15";
+    themeHex = "#e8ce71";
+    themeQRColor = "930000";
+    qrBgColor = "FFFFFF"; // White QR background
+  } else if (isNormalMember) {
+    // Blue (Light Blue)
+    themeBg = "bg-gradient-to-br from-[#021124] via-[#042859] to-[#010914]";
+    themeBorderTop = "border border-[#38BDF8]/20";
+    themeAccent = "text-[#38BDF8]";
+    themeBadgeBg = "bg-[#042859] text-white";
+    themeAccentBg = "bg-white/10";
+    themeAccentBorder = "border-[#38BDF8]/30";
+    themeGlow = "bg-[#38BDF8]/10";
+    themeHex = "#38BDF8";
+    themeQRColor = "042859";
+    qrBgColor = "FFFFFF"; // White QR background
+  }
+
   return (
     <div 
       id={isPdfMode ? `pdf-member-card-${member.id}` : `member-card-${member.id}`}
-      className={`mx-auto bg-gradient-to-br from-inverse-surface via-primary to-inverse-surface text-white shadow-2xl border-2 border-secondary/40 relative overflow-hidden text-left ${
+      className={`mx-auto ${themeBg} text-white shadow-2xl relative overflow-hidden text-left ${themeBorderTop} ${
         isPdfMode 
           ? "w-[450px] rounded-3xl p-6" 
           : "w-full max-w-[450px] rounded-2xl sm:rounded-3xl p-4 sm:p-6"
       }`}
     >
       {/* Holographic background glow */}
-      <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/15 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-primary-container/30 rounded-full blur-2xl pointer-events-none" />
+      <div className={`absolute top-0 right-0 w-64 h-64 ${themeGlow} rounded-full blur-3xl pointer-events-none`} />
+      <div className={`absolute -bottom-10 -left-10 w-48 h-48 ${themeGlow} rounded-full blur-2xl pointer-events-none`} />
 
       {/* Card Header */}
-      <div className="flex items-start sm:items-center justify-between pb-4 border-b border-white/20 relative z-10 gap-2">
+      <div className={`flex items-start sm:items-center justify-between pb-4 border-b ${themeAccentBorder} relative z-10 gap-2`}>
         <div className="flex items-center gap-2 sm:gap-3">
           <img
             src="/logo.png"
@@ -34,16 +77,16 @@ const CardContent = ({ member, isPdfMode = false }: { member: ChurchMember, isPd
             className="w-8 h-8 sm:w-10 sm:h-10 object-contain drop-shadow shrink-0"
           />
           <div>
-            <span className="font-display font-extrabold text-sm text-white block leading-tight tracking-wide">
+            <span className={`font-display font-extrabold text-sm ${themeAccent} block leading-tight tracking-wide`}>
               HOUEKIN MINISTRIES
             </span>
-            <span className="font-display text-[9px] text-secondary-fixed tracking-widest uppercase block font-semibold">
+            <span className={`font-display text-[9px] ${themeAccent} opacity-70 tracking-widest uppercase block font-semibold`}>
               LA CITÉ D'EXCELLENCE
             </span>
           </div>
         </div>
 
-        <div className="px-2.5 py-1 bg-secondary text-white text-[9px] font-extrabold uppercase rounded-full tracking-wider shadow-sm shrink-0 self-center sm:self-auto text-center inline-block">
+        <div className={`px-2.5 py-1 ${themeBadgeBg} text-[9px] font-extrabold uppercase rounded-full tracking-wider shadow-sm shrink-0 self-center sm:self-auto text-center inline-block border ${themeAccentBorder}`}>
           <Sparkles className="w-2.5 h-2.5 inline-block mr-1 align-text-bottom" />
           <span className={isPdfMode ? "" : "hidden sm:inline"}>CARTE</span> OFFICIELLE
         </div>
@@ -58,8 +101,9 @@ const CardContent = ({ member, isPdfMode = false }: { member: ChurchMember, isPd
             <img
               src={member.photoUrl || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop"}
               alt={`${member.firstName} ${member.lastName}`}
-              className="w-20 h-24 sm:w-24 sm:h-28 object-cover rounded-2xl border-2 border-secondary shadow-lg mx-auto block"
-              crossOrigin="anonymous" // Important for html2canvas
+              className="w-20 h-24 sm:w-24 sm:h-28 object-cover rounded-2xl border-2 shadow-lg mx-auto block"
+              style={{ borderColor: themeHex }}
+              crossOrigin="anonymous"
             />
             <div className="absolute -bottom-2 inset-x-0 w-full text-center">
               <span className="inline-block px-2 py-0.5 bg-emerald-600 text-[8px] font-bold text-white rounded-full uppercase tracking-wider shadow whitespace-nowrap">
@@ -72,16 +116,16 @@ const CardContent = ({ member, isPdfMode = false }: { member: ChurchMember, isPd
         {/* Details */}
         <div className="col-span-2 space-y-2 text-xs">
           <div>
-            <span className="text-[10px] text-secondary-fixed font-mono uppercase tracking-wider block font-semibold mb-1">
+            <span className={`text-[10px] ${themeAccent} font-mono uppercase tracking-wider block font-semibold mb-1`}>
               Matricule Membre
             </span>
-            <span className="font-mono font-extrabold text-sm text-white bg-white/10 px-2.5 py-1 rounded-xl border border-white/15 inline-block">
+            <span className={`font-mono font-extrabold text-sm text-white bg-white/5 px-2.5 py-1 rounded-xl border ${themeAccentBorder} inline-block`}>
               {member.memberNumber}
             </span>
           </div>
 
           <div>
-            <span className="text-[10px] text-white/70 block">Nom & Prénoms</span>
+            <span className="text-[10px] text-white/50 block">Nom & Prénoms</span>
             <span className="font-display font-extrabold text-sm text-white block leading-tight">
               {member.lastName.toUpperCase()} {member.firstName}
             </span>
@@ -89,37 +133,49 @@ const CardContent = ({ member, isPdfMode = false }: { member: ChurchMember, isPd
 
           <div className="grid grid-cols-2 gap-2 text-[11px]">
             <div>
-              <span className="text-[9px] text-white/60 block">Sexe</span>
+              <span className="text-[9px] text-white/40 block">Sexe</span>
               <span className="font-semibold text-white">{member.gender}</span>
             </div>
             <div>
-              <span className="text-[9px] text-white/60 block">Né(e) le</span>
+              <span className="text-[9px] text-white/40 block">Né(e) le</span>
               <span className="font-semibold text-white font-mono">{member.birthDate}</span>
             </div>
           </div>
 
-          {member.department && (
+          {ministry ? (
             <div>
-              <span className="text-[9px] text-white/60 block">Département</span>
-              <span className="font-bold text-secondary-fixed text-[11px] block">
+              <span className="text-[9px] text-white/40 block">Ministère</span>
+              <span className={`font-bold ${themeAccent} text-[11px] block uppercase tracking-wider`}>
+                {ministry}
+              </span>
+            </div>
+          ) : member.department ? (
+            <div>
+              <span className="text-[9px] text-white/40 block">Département</span>
+              <span className={`font-bold ${themeAccent} text-[11px] block`}>
                 {member.department}
               </span>
             </div>
-          )}
+          ) : null}
         </div>
 
       </div>
 
       {/* Card Footer: Address & QR Code */}
-      <div className="pt-3 border-t border-white/15 flex items-center justify-between relative z-10 text-[10px]">
+      <div className={`pt-3 border-t ${themeAccentBorder} flex items-center justify-between relative z-10 text-[10px]`}>
         <div>
-          <span className="text-white/70 block">Quartier & Résidence</span>
+          <span className="text-white/50 block">Quartier & Résidence</span>
           <span className="font-semibold text-white">{member.neighborhood}</span>
         </div>
 
         {/* Dynamic Verification QR Code */}
-        <div className="bg-white p-1.5 rounded-xl shadow-md text-primary inline-block">
-          <QrCode className="w-8 h-8" />
+        <div className={`${themeAccentBg} p-1.5 rounded-xl shadow-md inline-block border ${themeAccentBorder}`}>
+          <img 
+            src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(`https://cite-d-excellence-site.vercel.app/members/verify/${member.memberNumber}`)}&color=${themeQRColor}&bgcolor=${qrBgColor}`} 
+            alt="QR Code Vérification"
+            className="w-10 h-10 rounded-sm"
+            crossOrigin="anonymous"
+          />
         </div>
       </div>
 

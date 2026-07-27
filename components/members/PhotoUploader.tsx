@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import { Camera, Upload, X, RefreshCw, CheckCircle, Image as ImageIcon } from "lucide-react";
+import { supabase, isSupabaseConfigured } from "@/lib/supabase/client";
 
 interface PhotoUploaderProps {
   value: string;
@@ -11,8 +12,48 @@ interface PhotoUploaderProps {
 export default function PhotoUploader({ value, onChange }: PhotoUploaderProps) {
   const [mode, setMode] = useState<'upload' | 'camera' | 'url'>('upload');
   const [isCameraActive, setIsCameraActive] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
+
+  // Upload image to Supabase Storage instead of saving base64 to DB
+  const uploadToSupabase = async (dataUrl: string) => {
+    if (!isSupabaseConfigured()) {
+      onChange(dataUrl);
+      return;
+    }
+    
+    try {
+      setUploading(true);
+      const base64Response = await fetch(dataUrl);
+      const blob = await base64Response.blob();
+      const fileName = `avatars/avatar_${Date.now()}_${Math.random().toString(36).substring(2, 9)}.jpg`;
+      
+      const { data, error } = await supabase.storage
+        .from('media')
+        .upload(fileName, blob, {
+          contentType: 'image/jpeg',
+          upsert: false
+        });
+        
+      if (error) {
+        console.error("Erreur d'upload Supabase:", error);
+        onChange(dataUrl); // Fallback to base64 if upload fails
+        return;
+      }
+      
+      const { data: publicUrlData } = supabase.storage
+        .from('media')
+        .getPublicUrl(fileName);
+        
+      onChange(publicUrlData.publicUrl); // Save the fast public URL!
+    } catch (err) {
+      console.error("Exception upload:", err);
+      onChange(dataUrl);
+    } finally {
+      setUploading(false);
+    }
+  };
 
   // Handle File Upload from device with Automatic Image Compression
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,11 +93,11 @@ export default function PhotoUploader({ value, onChange }: PhotoUploaderProps) {
           ctx.drawImage(img, 0, 0, width, height);
           // Exporter en JPEG qualité 80% (très léger, idéal pour Supabase)
           const compressedDataUrl = canvas.toDataURL("image/jpeg", 0.80);
-          onChange(compressedDataUrl);
+          uploadToSupabase(compressedDataUrl);
         } else {
           // Fallback si erreur canvas
           if (typeof reader.result === 'string') {
-            onChange(reader.result);
+            uploadToSupabase(reader.result);
           }
         }
       };
@@ -106,7 +147,7 @@ export default function PhotoUploader({ value, onChange }: PhotoUploaderProps) {
       if (ctx) {
         ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
         const dataUrl = canvas.toDataURL("image/jpeg", 0.85);
-        onChange(dataUrl);
+        uploadToSupabase(dataUrl);
         stopCamera();
       }
     }
@@ -127,8 +168,14 @@ export default function PhotoUploader({ value, onChange }: PhotoUploaderProps) {
             alt="Aperçu photo d'identité"
             className="w-24 h-28 object-cover rounded-2xl border-2 border-secondary shadow-md bg-white"
           />
-          {value && (
-            <span className="absolute -top-2 -right-2 p-1 bg-emerald-600 text-white rounded-full shadow" title="Photo chargée">
+          {uploading && (
+            <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center rounded-2xl z-10">
+              <RefreshCw className="w-5 h-5 text-white animate-spin mb-1" />
+              <span className="text-[9px] text-white font-bold">Envoi...</span>
+            </div>
+          )}
+          {value && !uploading && (
+            <span className="absolute -top-2 -right-2 p-1 bg-emerald-600 text-white rounded-full shadow z-20" title="Photo chargée">
               <CheckCircle className="w-3.5 h-3.5" />
             </span>
           )}
