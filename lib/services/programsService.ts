@@ -50,3 +50,18 @@ export async function deleteProgram(id: string): Promise<boolean> {
     return false;
   }
 }
+
+export async function updateProgram(id: string, program: Partial<Program>): Promise<boolean> {
+  if (!isSupabaseConfigured()) return true;
+
+  try {
+    const { error } = await supabase.from('programs').update(program).eq('id', id);
+    if (error) {
+      console.error("Erreur mise à jour programme:", error);
+      return false;
+    }
+    return true;
+  } catch (err) {
+    return false;
+  }
+}

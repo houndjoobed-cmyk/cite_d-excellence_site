@@ -8,7 +8,7 @@ export default function Footer() {
   return (
     <footer className="bg-surface-container-lowest border-t border-outline-variant/30 py-16">
       <div className="px-4 md:px-margin-desktop max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-        
+
         {/* Column 1: Brand Info */}
         <div className="space-y-4">
           <div className="flex items-center gap-3">
@@ -31,7 +31,7 @@ export default function Footer() {
           </p>
           <div className="flex gap-3 pt-2">
             <a
-              href={CHURCH_INFO.socials.facebook}
+              href="https://www.facebook.com/profile.php?id=61577961128556"
               target="_blank"
               rel="noopener noreferrer"
               className="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-all shadow-sm"
@@ -40,7 +40,7 @@ export default function Footer() {
               <Facebook className="w-4 h-4" />
             </a>
             <a
-              href={CHURCH_INFO.socials.youtube}
+              href="https://www.youtube.com/@Cit%C3%A9dexcellencehm"
               target="_blank"
               rel="noopener noreferrer"
               className="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-all shadow-sm"
@@ -49,7 +49,7 @@ export default function Footer() {
               <Youtube className="w-4 h-4" />
             </a>
             <a
-              href={CHURCH_INFO.socials.instagram}
+              href="https://www.instagram.com/citedexcellence"
               target="_blank"
               rel="noopener noreferrer"
               className="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-all shadow-sm"
@@ -58,7 +58,7 @@ export default function Footer() {
               <Instagram className="w-4 h-4" />
             </a>
             <a
-              href={CHURCH_INFO.socials.whatsapp}
+              href="https://wa.me/+2290165185630"
               target="_blank"
               rel="noopener noreferrer"
               className="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-all shadow-sm"
@@ -107,15 +107,15 @@ export default function Footer() {
           <ul className="space-y-3 text-sm text-on-surface-variant">
             <li className="flex items-start gap-3">
               <MapPin className="w-4 h-4 text-secondary mt-1 flex-shrink-0" />
-              <span>{CHURCH_INFO.address}</span>
+              <span>Abomey-calavi, Bénin</span>
             </li>
             <li className="flex items-center gap-3">
               <Phone className="w-4 h-4 text-secondary flex-shrink-0" />
-              <span>{CHURCH_INFO.phone}</span>
+              <span>+229 01 65 18 56 30</span>
             </li>
             <li className="flex items-center gap-3">
               <Mail className="w-4 h-4 text-secondary flex-shrink-0" />
-              <span>{CHURCH_INFO.email}</span>
+              <span><a href="mailto:citedexcellence01@gmail.com">citedexcellence01@gmail.com</a></span>
             </li>
           </ul>
         </div>
@@ -149,6 +149,6 @@ export default function Footer() {
         <p>© {new Date().getFullYear()} {CHURCH_INFO.name} - {CHURCH_INFO.subtitle}. Tous droits réservés.</p>
         <p className="font-medium text-secondary">Bâtir une Génération d'Excellence</p>
       </div>
-    </footer>
+    </footer >
   );
 }

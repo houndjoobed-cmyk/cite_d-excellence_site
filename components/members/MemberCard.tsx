@@ -13,9 +13,10 @@ interface MemberCardProps {
 
 const CardContent = ({ member, isPdfMode = false }: { member: ChurchMember, isPdfMode?: boolean }) => {
   // Theme selection based on ministry (spiritualGifts)
-  const ministry = member.spiritualGifts || "";
-  const isPasteurPrincipal = ministry === "Pasteur Principal";
-  const isNormalMember = ministry === "";
+  const ministry = (member.spiritualGifts || "").toLowerCase().trim();
+  const isPasteurPrincipal = ministry.includes("pasteur principal");
+  const isPastoral = (ministry.includes("pasteur") || ministry.includes("assistant")) && !isPasteurPrincipal;
+  const isNormalMember = !isPasteurPrincipal && !isPastoral;
 
   // Base setup (Red - Pasteurs, Assistant, Junior)
   let themeBg = "bg-gradient-to-br from-[#4a0a0a] via-[#8a0000] to-[#2a0000]";

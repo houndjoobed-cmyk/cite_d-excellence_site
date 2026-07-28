@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CHURCH_INFO } from "@/lib/constants";
 import { PlayCircle, Calendar, ArrowRight } from "lucide-react";
+import homeImage from "@/assets/3.jpg";
 
 export default function HeroSection() {
   return (
@@ -8,10 +9,10 @@ export default function HeroSection() {
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 hero-overlay z-10" />
-        <div 
+        <div
           className="w-full h-full bg-cover bg-center scale-105 transition-transform duration-1000"
           style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1544427920-c49ccfb85579?q=80&w=1920&auto=format&fit=crop')`
+            backgroundImage: `url(${homeImage.src})`
           }}
         />
       </div>
@@ -21,11 +22,11 @@ export default function HeroSection() {
         <span className="inline-block px-4 py-1.5 rounded-full bg-secondary/20 backdrop-blur-md border border-secondary/40 text-secondary-fixed text-xs md:text-sm font-semibold tracking-wider uppercase mb-6">
           Maison de prière & de transformation
         </span>
-        
+
         <h1 className="font-display font-extrabold text-3xl sm:text-5xl md:text-6xl leading-tight mb-4 drop-shadow-lg">
           Bienvenue à <span className="gold-text-gradient">{CHURCH_INFO.name}</span>
         </h1>
-        
+
         <p className="font-display text-xl sm:text-2xl md:text-3xl text-secondary-fixed mb-6 tracking-widest uppercase font-semibold">
           {CHURCH_INFO.subtitle}
         </p>
@@ -63,8 +64,8 @@ export default function HeroSection() {
           </div>
           <div>
             <p className="text-on-surface-variant font-bold text-xs uppercase tracking-wider">Prochain Culte</p>
-            <p className="text-primary font-extrabold text-lg">Dimanche à 09h00</p>
-            <p className="text-on-surface text-xs font-medium opacity-80">Culte d'Excellence & de Percée</p>
+            <p className="text-primary font-extrabold text-lg">Dimanche à 09h00-11h30</p>
+            <p className="text-on-surface text-xs font-medium opacity-80">Culte de Gloire & Prophétique</p>
           </div>
         </div>
       </div>

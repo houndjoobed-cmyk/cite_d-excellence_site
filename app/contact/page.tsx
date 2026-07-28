@@ -42,7 +42,7 @@ export default function ContactPage() {
       </div>
 
       <div className="px-4 md:px-margin-desktop max-w-container-max mx-auto py-16 grid md:grid-cols-2 gap-12">
-        
+
         {/* Contact Information & Map */}
         <div className="space-y-8">
           <div>
@@ -56,7 +56,7 @@ export default function ContactPage() {
                 <MapPin className="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" />
                 <div>
                   <h4 className="font-bold text-on-surface">Adresse</h4>
-                  <p className="text-on-surface-variant text-xs">{CHURCH_INFO.address}</p>
+                  <p className="text-on-surface-variant text-xs">Abomey-calavi, Bénin</p>
                 </div>
               </div>
 
@@ -64,7 +64,7 @@ export default function ContactPage() {
                 <Phone className="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" />
                 <div>
                   <h4 className="font-bold text-on-surface">Téléphone</h4>
-                  <p className="text-on-surface-variant text-xs">{CHURCH_INFO.phone}</p>
+                  <p className="text-on-surface-variant text-xs">+229 01 65 18 56 30</p>
                 </div>
               </div>
 
@@ -72,7 +72,7 @@ export default function ContactPage() {
                 <MessageCircle className="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" />
                 <div>
                   <h4 className="font-bold text-on-surface">WhatsApp</h4>
-                  <p className="text-on-surface-variant text-xs">{CHURCH_INFO.whatsapp}</p>
+                  <p className="text-on-surface-variant text-xs">+229 01 65 18 56 30</p>
                 </div>
               </div>
 
@@ -80,7 +80,7 @@ export default function ContactPage() {
                 <Mail className="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" />
                 <div>
                   <h4 className="font-bold text-on-surface">Email</h4>
-                  <p className="text-on-surface-variant text-xs">{CHURCH_INFO.email}</p>
+                  <p className="text-on-surface-variant text-xs">citedexcellence01@gmail.com</p>
                 </div>
               </div>
             </div>
@@ -90,8 +90,8 @@ export default function ContactPage() {
           <div className="rounded-3xl overflow-hidden border-2 border-outline-variant/30 shadow-md h-64 bg-surface-container-low flex items-center justify-center text-center p-6">
             <div className="space-y-2">
               <MapPin className="w-8 h-8 text-primary mx-auto" />
-              <p className="font-display font-bold text-sm text-on-surface">Sanctuaire Principal - HOUEKIN MINISTRIES</p>
-              <p className="text-xs text-on-surface-variant">Cotonou, Bénin</p>
+              <p className="font-display font-bold text-sm text-on-surface">Eglise Principal - HOUEKIN MINISTRIES- La cite d'excellence</p>
+              <p className="text-xs text-on-surface-variant">Abomey-calavi, En face du petit portail du campus.</p>
             </div>
           </div>
         </div>

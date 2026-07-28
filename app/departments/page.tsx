@@ -8,7 +8,7 @@ export default function DepartmentsPage() {
         <span className="text-secondary-fixed font-bold text-xs tracking-widest uppercase block mb-2">Servir avec Excellence</span>
         <h1 className="font-display font-extrabold text-4xl md:text-5xl mb-4">Nos Départements</h1>
         <p className="text-white/80 max-w-2xl mx-auto text-base">
-          Chaque membre possède des dons uniques. Trouvez le ministère qui correspond à votre appel.
+          Chaque enfant de Dieu a des dons uniques. Trouvez le ministère qui correspond à votre appel.
         </p>
       </div>
 

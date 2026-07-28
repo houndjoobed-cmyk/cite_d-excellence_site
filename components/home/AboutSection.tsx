@@ -1,19 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Eye, Rocket, CheckCircle2, ArrowRight } from "lucide-react";
+import photoDirigeants from "@/assets/2.jpg";
 
 export default function AboutSection() {
   return (
     <section className="py-20 px-4 md:px-margin-desktop max-w-container-max mx-auto overflow-hidden" id="about">
       <div className="grid lg:grid-cols-2 gap-16 items-center">
-        
+
         {/* Left Column: Visual & Impact Badge */}
         <div className="relative">
           <div className="absolute -top-8 -left-8 w-48 h-48 bg-secondary/15 rounded-full blur-3xl" />
-          
+
           <div className="rounded-3xl overflow-hidden shadow-2xl relative z-10 border-4 border-white">
             <img
-              src="https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=800&auto=format&fit=crop"
+              src={photoDirigeants.src}
               alt="Dirigeants de HOUEKIN MINISTRIES"
               className="w-full h-[450px] object-cover"
             />
@@ -21,10 +22,10 @@ export default function AboutSection() {
 
           <div className="absolute -bottom-6 -right-4 md:right-6 glass-card px-6 py-4 rounded-2xl shadow-xl border border-secondary/30 z-20 flex items-center gap-4">
             <div className="w-12 h-12 rounded-xl gold-gradient flex items-center justify-center text-white font-display font-extrabold text-xl shadow-md">
-              20+
+              4+
             </div>
             <div>
-              <span className="text-primary font-extrabold text-xl block leading-tight">Années d'Impact</span>
+              <span className="text-primary font-extrabold text-xl block leading-tight">Années de distinction</span>
               <span className="text-on-surface-variant text-xs font-semibold">Transformant des vies au Bénin</span>
             </div>
           </div>
@@ -37,7 +38,7 @@ export default function AboutSection() {
             Bâtir une Génération d'Excellence
           </h2>
           <p className="text-on-surface-variant text-base md:text-lg mb-8 leading-relaxed">
-            HOUEKIN MINISTRIES est plus qu'une église ; c'est un centre de transformation spirituelle et sociale où nous équipons les croyants pour manifester la gloire de Dieu dans toutes les sphères de la société.
+            La Cité d'Excellence est plus qu'une église ; c'est un centre de transformation spirituelle et sociale où nous équipons les croyants pour manifester la gloire de Dieu dans toutes les sphères de la société.
           </p>
 
           <div className="space-y-6 mb-10">
@@ -68,12 +69,12 @@ export default function AboutSection() {
             <div className="grid grid-cols-3 gap-4 text-center relative">
               <div className="space-y-1">
                 <span className="w-3 h-3 bg-primary rounded-full block mx-auto shadow-md"></span>
-                <p className="text-xs font-bold text-primary">2004</p>
+                <p className="text-xs font-bold text-primary">2022</p>
                 <p className="text-[11px] text-on-surface-variant">Fondation</p>
               </div>
               <div className="space-y-1">
                 <span className="w-3 h-3 bg-primary rounded-full block mx-auto shadow-md"></span>
-                <p className="text-xs font-bold text-primary">2012</p>
+                <p className="text-xs font-bold text-primary">2024</p>
                 <p className="text-[11px] text-on-surface-variant">Expansion</p>
               </div>
               <div className="space-y-1">

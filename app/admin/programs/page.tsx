@@ -2,14 +2,15 @@
 
 import { useState, useEffect } from "react";
 import { Program } from "@/lib/constants";
-import { fetchPrograms, createProgram, deleteProgram } from "@/lib/services/programsService";
-import { Plus, Trash2, Calendar, Clock, MapPin, Loader2 } from "lucide-react";
+import { fetchPrograms, createProgram, updateProgram, deleteProgram } from "@/lib/services/programsService";
+import { Plus, Trash2, Edit2, Calendar, Clock, MapPin, Loader2 } from "lucide-react";
 
 export default function AdminProgramsPage() {
   const [programList, setProgramList] = useState<Program[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState<'Culte' | 'Étude' | 'Prière' | 'Séminaire' | 'Veillée'>("Culte");
@@ -32,30 +33,64 @@ export default function AdminProgramsPage() {
     if (!title || !day || !time) return;
     setIsSubmitting(true);
 
-    const newProg: Program = {
-      id: `prog-${Date.now()}`,
-      title,
-      category,
-      day,
-      time,
-      location,
-      description: description || "Moment de célébration et de prière.",
-      icon: category === "Culte" ? "church" : category === "Étude" ? "menu_book" : "fireplace"
-    };
-
-    const success = await createProgram(newProg);
-    if (success) {
-      setProgramList([...programList, newProg]);
-      setShowModal(false);
+    if (editingId) {
+      const updatedProg = {
+        title,
+        category,
+        day,
+        time,
+        location,
+        description: description || "Moment de célébration et de prière.",
+        icon: category === "Culte" ? "church" : category === "Étude" ? "menu_book" : "fireplace"
+      };
       
-      // Reset form
-      setTitle("");
-      setTime("");
-      setDescription("");
+      const success = await updateProgram(editingId, updatedProg);
+      if (success) {
+        setProgramList(programList.map(p => p.id === editingId ? { ...p, ...updatedProg } : p));
+        closeModal();
+      } else {
+        alert("Erreur lors de la modification de l'événement.");
+      }
     } else {
-      alert("Erreur lors de l'enregistrement de l'événement.");
+      const newProg: Program = {
+        id: `prog-${Date.now()}`,
+        title,
+        category,
+        day,
+        time,
+        location,
+        description: description || "Moment de célébration et de prière.",
+        icon: category === "Culte" ? "church" : category === "Étude" ? "menu_book" : "fireplace"
+      };
+
+      const success = await createProgram(newProg);
+      if (success) {
+        setProgramList([...programList, newProg]);
+        closeModal();
+      } else {
+        alert("Erreur lors de l'enregistrement de l'événement.");
+      }
     }
     setIsSubmitting(false);
+  };
+
+  const openEditModal = (prog: Program) => {
+    setEditingId(prog.id);
+    setTitle(prog.title);
+    setCategory(prog.category);
+    setDay(prog.day);
+    setTime(prog.time);
+    setLocation(prog.location);
+    setDescription(prog.description);
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setEditingId(null);
+    setTitle("");
+    setTime("");
+    setDescription("");
   };
 
   const handleDelete = async (id: string) => {
@@ -78,7 +113,13 @@ export default function AdminProgramsPage() {
         </div>
 
         <button
-          onClick={() => setShowModal(true)}
+          onClick={() => {
+            setEditingId(null);
+            setTitle("");
+            setTime("");
+            setDescription("");
+            setShowModal(true);
+          }}
           className="bg-primary hover:bg-primary-container text-white px-5 py-2.5 rounded-2xl font-bold text-xs transition-all shadow-md flex items-center justify-center gap-2"
         >
           <Plus className="w-4 h-4" />
@@ -107,13 +148,22 @@ export default function AdminProgramsPage() {
                   <span className="px-3 py-1 bg-secondary/10 text-secondary text-xs font-bold rounded-full">
                     {prog.category}
                   </span>
-                  <button
-                    onClick={() => handleDelete(prog.id)}
-                    className="text-rose-600 hover:bg-rose-50 p-1.5 rounded-xl transition-colors"
-                    title="Supprimer"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => openEditModal(prog)}
+                      className="text-blue-600 hover:bg-blue-50 p-1.5 rounded-xl transition-colors"
+                      title="Modifier"
+                    >
+                      <Edit2 className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(prog.id)}
+                      className="text-rose-600 hover:bg-rose-50 p-1.5 rounded-xl transition-colors"
+                      title="Supprimer"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
 
                 <h3 className="font-display font-bold text-lg text-on-surface mb-2">{prog.title}</h3>
@@ -140,8 +190,10 @@ export default function AdminProgramsPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
           <div className="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 space-y-6 shadow-2xl border border-white/20">
             <div className="flex justify-between items-center pb-3 border-b border-outline-variant/20">
-              <h3 className="font-display font-bold text-lg text-primary">Nouveau Programme / Culte</h3>
-              <button onClick={() => setShowModal(false)} className="text-on-surface-variant hover:text-on-surface font-bold text-sm">✕</button>
+              <h3 className="font-display font-bold text-lg text-primary">
+                {editingId ? "Modifier le Programme" : "Nouveau Programme / Culte"}
+              </h3>
+              <button onClick={closeModal} className="text-on-surface-variant hover:text-on-surface font-bold text-sm">✕</button>
             </div>
 
             <form onSubmit={handleAddProgram} className="space-y-4 text-xs">

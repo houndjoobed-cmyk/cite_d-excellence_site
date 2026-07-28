@@ -210,21 +210,44 @@ export default function AdminMembersPage() {
       {/* Members Grid */}
       {!isLoading && filteredMembers.length > 0 && (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredMembers.map((member) => (
+          {filteredMembers.map((member) => {
+            const ministry = (member.spiritualGifts || "").toLowerCase().trim();
+            const isPasteurPrincipal = ministry.includes("pasteur principal");
+            const isPastoral = (ministry.includes("pasteur") || ministry.includes("assistant")) && !isPasteurPrincipal;
+            
+            let cardThemeClass = "border-l-4 border-l-blue-900"; // Bleu Nuit (Membre Normal)
+            if (isPasteurPrincipal) {
+              cardThemeClass = "border-l-4 border-l-[#D4AF37]"; // Or (Pasteur Principal)
+            } else if (isPastoral) {
+              cardThemeClass = "border-l-4 border-l-[#930000]"; // Rouge (Pastoral)
+            }
+
+            return (
             <div
               key={member.id}
-              className="bg-white p-6 rounded-3xl border border-outline-variant/20 shadow-md flex flex-col justify-between space-y-4 hover:shadow-lg transition-all cursor-pointer"
+              className={`bg-white p-6 rounded-3xl border-t border-r border-b border-outline-variant/20 shadow-md flex flex-col justify-between space-y-4 hover:shadow-lg transition-all cursor-pointer overflow-hidden relative ${cardThemeClass}`}
               onClick={() => setSelectedMember(member)}
             >
-              <div className="flex items-start gap-4">
+              {/* Subtile puce de couleur en haut à droite pour rappeler le rang */}
+              <div className={`absolute top-0 right-0 w-8 h-8 rounded-bl-3xl ${
+                isPasteurPrincipal ? 'bg-[#D4AF37]/20' : isPastoral ? 'bg-[#930000]/10' : 'bg-blue-900/10'
+              }`}></div>
+
+              <div className="flex items-start gap-4 relative z-10">
                 {member.photoUrl ? (
                   <img
                     src={member.photoUrl}
                     alt={`${member.firstName} ${member.lastName}`}
-                    className="w-16 h-20 rounded-2xl object-cover border-2 border-secondary shadow-sm shrink-0"
+                    className={`w-16 h-20 rounded-2xl object-cover border-2 shadow-sm shrink-0 ${
+                      isPasteurPrincipal ? 'border-[#D4AF37]' : isPastoral ? 'border-[#930000]' : 'border-blue-900'
+                    }`}
                   />
                 ) : (
-                  <div className="w-16 h-20 rounded-2xl bg-secondary/10 border-2 border-secondary/30 flex items-center justify-center text-secondary font-display font-bold text-lg shrink-0">
+                  <div className={`w-16 h-20 rounded-2xl border-2 flex items-center justify-center font-display font-bold text-lg shrink-0 ${
+                      isPasteurPrincipal ? 'bg-[#D4AF37]/10 border-[#D4AF37]/30 text-[#856b18]' 
+                      : isPastoral ? 'bg-[#930000]/10 border-[#930000]/30 text-[#930000]' 
+                      : 'bg-blue-900/10 border-blue-900/30 text-blue-900'
+                  }`}>
                     {member.firstName?.[0]}{member.lastName?.[0]}
                   </div>
                 )}
@@ -276,7 +299,7 @@ export default function AdminMembersPage() {
                 </div>
               </div>
             </div>
-          ))}
+          )})}
         </div>
       )}
 
