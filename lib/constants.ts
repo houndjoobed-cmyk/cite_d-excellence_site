@@ -20,6 +20,7 @@ export interface Sermon {
   thumbnail: string;
   duration: string;
   description: string;
+  videoUrl?: string;
 }
 
 export interface Department {
