@@ -12,8 +12,12 @@ export async function fetchPrograms(): Promise<Program[]> {
       .select('*')
       .order('created_at', { ascending: false });
 
-    if (error || !data || data.length === 0) {
+    if (error || !data) {
       return PROGRAMS;
+    }
+
+    if (data.length === 0) {
+      return [];
     }
 
     return data as Program[];

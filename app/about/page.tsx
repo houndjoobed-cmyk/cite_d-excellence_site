@@ -39,29 +39,54 @@ export default function AboutPage() {
           </div>
         </div>
 
-        {/* Vision & Mission Cards */}
+        {/* Vision, Mission, Valeurs & Produit */}
         <div className="grid md:grid-cols-2 gap-8">
           <div className="bg-white p-8 rounded-3xl border border-secondary/20 shadow-sm space-y-4">
             <div className="w-12 h-12 rounded-2xl bg-secondary/10 text-secondary flex items-center justify-center">
               <Eye className="w-6 h-6" />
             </div>
             <h3 className="font-display font-bold text-2xl text-primary">Notre Vision</h3>
-            <p className="text-on-surface-variant text-sm leading-relaxed">
-              Et ce que tu as entendu de moi en présence de beaucoup de témoins, confie-le à des hommes fidèles, qui soient capables de l'enseigner à leur tour à d'autres. (2 Timothée 2 : 2).C'est cette parole qui est le fondement de notre vision.
-            </p>
+            <div className="text-on-surface-variant text-sm leading-relaxed space-y-2">
+              <p>Faites de toutes les nations des disciples de Christ <strong>(Matthieu 28 : 19)</strong></p>
+              <p>Et ce que tu as entendu de moi en présence de beaucoup de témoins, confie-le à des hommes fidèles qui soient capables de l'enseigner aussi à d'autres. <strong>(2 Timothée 2 : 2)</strong></p>
+            </div>
           </div>
 
           <div className="bg-white p-8 rounded-3xl border border-secondary/20 shadow-sm space-y-4">
             <div className="w-12 h-12 rounded-2xl bg-secondary/10 text-secondary flex items-center justify-center">
               <Rocket className="w-6 h-6" />
             </div>
-            <h3 className="font-display font-bold text-2xl text-primary">Notre Mission</h3>
-            <p className="text-on-surface-variant text-sm leading-relaxed">
-              <p> *Glorifier Dieu en formant des disciples qui exaltent Dieu, partagent activement l'évangile et servent fidèlement Christ et les autres.</p>
-              <p> *Edifier les autres croyants.</p>
-              <p> *Evangeliser en commençant dans nôtre localité.</p>
-              <p> *Etendre la formation des disciples au monde entier.</p>
-            </p>
+            <h3 className="font-display font-bold text-2xl text-primary">Notre But</h3>
+            <ul className="text-on-surface-variant text-sm leading-relaxed space-y-2 list-disc pl-5 marker:text-secondary">
+              <li>Glorifier Dieu en formant des disciples qui exaltent Dieu.</li>
+              <li>Edifier les autres croyants.</li>
+              <li>Evangéliser en commençant dans notre propre localité.</li>
+              <li>Etendre la formation des disciples au monde entier.</li>
+            </ul>
+          </div>
+
+          <div className="bg-white p-8 rounded-3xl border border-secondary/20 shadow-sm space-y-4">
+            <div className="w-12 h-12 rounded-2xl bg-secondary/10 text-secondary flex items-center justify-center">
+              <ShieldCheck className="w-6 h-6" />
+            </div>
+            <h3 className="font-display font-bold text-2xl text-primary">Nos Valeurs</h3>
+            <ul className="text-sm leading-relaxed space-y-3 font-bold text-primary list-none">
+              <li className="flex gap-2"><span className="text-secondary">☑</span> L'EXCELLENCE DANS LA SAINTETÉ</li>
+              <li className="flex gap-2"><span className="text-secondary">☑</span> L'EXCELLENCE DANS LA FOI</li>
+              <li className="flex gap-2"><span className="text-secondary">☑</span> L'EXCELLENCE DANS L'AMOUR</li>
+            </ul>
+          </div>
+
+          <div className="bg-white p-8 rounded-3xl border border-secondary/20 shadow-sm space-y-4">
+            <div className="w-12 h-12 rounded-2xl bg-secondary/10 text-secondary flex items-center justify-center">
+              <Heart className="w-6 h-6" />
+            </div>
+            <h3 className="font-display font-bold text-2xl text-primary">Notre Produit</h3>
+            <div className="text-on-surface-variant text-sm leading-relaxed">
+              <p className="mb-2">L'aspect le plus important de notre Eglise, est le <strong>PRODUIT</strong>.</p>
+              <p className="font-bold text-primary mb-2 uppercase">Ce produit est : UN DISCIPLE MATURE ET CROISSANT.</p>
+              <p>Nous définissons un disciple comme un croyant, qui intentionnellement et de plus en plus marche avec Dieu, vit la parole, contribue à l'œuvre et impacte le monde. Enfin devenir progressivement comme Christ conformément à la recette biblique de notre assemblée pour un disciple.</p>
+            </div>
           </div>
         </div>
 

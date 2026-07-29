@@ -1,7 +1,8 @@
 {
+  "/api/seed/route": "app/api/seed/route.js",
+  "/page": "app/page.js",
   "/departments/page": "app/departments/page.js",
+  "/programs/page": "app/programs/page.js",
   "/admin/page": "app/admin/page.js",
-  "/admin/login/page": "app/admin/login/page.js",
-  "/admin/programs/page": "app/admin/programs/page.js",
-  "/admin/settings/page": "app/admin/settings/page.js"
+  "/admin/programs/page": "app/admin/programs/page.js"
 }

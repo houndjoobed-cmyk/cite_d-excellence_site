@@ -18,8 +18,12 @@ export async function fetchMembers(): Promise<MemberCandidate[]> {
 
     const { data, error } = await Promise.race([fetchPromise, timeoutPromise]) as any;
 
-    if (error || !data || !Array.isArray(data) || data.length === 0) {
+    if (error || !data || !Array.isArray(data)) {
       return INITIAL_MEMBERS;
+    }
+
+    if (data.length === 0) {
+      return [];
     }
 
     return data.map((item: any) => ({

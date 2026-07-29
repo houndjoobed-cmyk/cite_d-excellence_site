@@ -1,20 +1,34 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { SERMONS, CHURCH_INFO } from "@/lib/constants";
+import { CHURCH_INFO, Sermon } from "@/lib/constants";
+import { fetchSermons } from "@/lib/services/sermonsService";
 import { Play, ArrowRight, Video, Headphones, FileText, Tv } from "lucide-react";
 
 export default function SermonsSection() {
   const [activeCategory, setActiveCategory] = useState<string>("Tous");
+  const [sermons, setSermons] = useState<Sermon[]>([]);
+
+  useEffect(() => {
+    async function loadSermons() {
+      const data = await fetchSermons();
+      setSermons(data);
+    }
+    loadSermons();
+  }, []);
 
   const categories = ["Tous", "Vidéo", "Audio", "PDF", "Live"];
 
-  const filteredSermons = activeCategory === "Tous"
-    ? SERMONS
-    : SERMONS.filter(s => s.category === activeCategory);
+  if (sermons.length === 0) {
+    return null;
+  }
 
-  const featuredSermon = SERMONS[0];
+  const filteredSermons = activeCategory === "Tous"
+    ? sermons
+    : sermons.filter(s => s.category === activeCategory);
+
+  const featuredSermon = sermons[0];
 
   return (
     <section className="py-20 bg-inverse-surface text-white overflow-hidden" id="sermons">

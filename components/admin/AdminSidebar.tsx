@@ -37,6 +37,7 @@ export default function AdminSidebar({ mobileOpen, setMobileOpen }: AdminSidebar
     { label: "Prédications", href: "/admin/sermons", icon: Video },
     { label: "Programmes & Cultes", href: "/admin/programs", icon: Calendar },
     { label: "RDV Pastoraux", href: "/admin/appointments", icon: Calendar },
+    { label: "Messages & Prières", href: "/admin/messages", icon: MessageSquare },
     { label: "Galerie Médias", href: "/admin/gallery", icon: Image },
     { label: "Paramètres Église", href: "/admin/settings", icon: Settings },
   ];

@@ -22,8 +22,12 @@ export async function fetchChurchMembers(): Promise<ChurchMember[]> {
     
     console.log(`Fetched ${data?.length} members from Supabase.`);
 
-    if (!data || !Array.isArray(data) || data.length === 0) {
-      return localMembersMemory;
+    if (!data || !Array.isArray(data)) {
+      return INITIAL_CHURCH_MEMBERS;
+    }
+
+    if (data.length === 0) {
+      return [];
     }
 
     return data.map((item: any) => ({

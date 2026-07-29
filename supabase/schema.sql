@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS public.sermons (
   thumbnail TEXT NOT NULL,
   duration VARCHAR(50) NOT NULL,
   description TEXT,
+  video_url TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
@@ -79,11 +80,18 @@ CREATE TABLE IF NOT EXISTS public.settings (
   phone VARCHAR(50) NOT NULL,
   whatsapp VARCHAR(50) NOT NULL,
   email VARCHAR(255) NOT NULL,
-  mtn_number VARCHAR(50) NOT NULL,
-  moov_number VARCHAR(50) NOT NULL,
-  bank_rib VARCHAR(255) NOT NULL,
-  bank_iban VARCHAR(255) NOT NULL,
+  kkiapay_link VARCHAR(255),
+  kkiapay_ussd VARCHAR(255),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+-- 6. TABLE GALERIE (GALLERY)
+CREATE TABLE IF NOT EXISTS public.gallery (
+  id VARCHAR(100) PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  image TEXT NOT NULL,
+  type VARCHAR(50) DEFAULT 'Photo',
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
 -- ACTIVER ROW LEVEL SECURITY (RLS)
@@ -92,19 +100,35 @@ ALTER TABLE public.programs ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.messages ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.church_members ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.settings ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.gallery ENABLE ROW LEVEL SECURITY;
 
 -- POLITIQUES D'ACCÈS PUBLIC
+DROP POLICY IF EXISTS "Accès public en lecture sermons" ON public.sermons;
 CREATE POLICY "Accès public en lecture sermons" ON public.sermons FOR SELECT USING (true);
+DROP POLICY IF EXISTS "Accès public en écriture sermons" ON public.sermons;
 CREATE POLICY "Accès public en écriture sermons" ON public.sermons FOR ALL USING (true);
 
+DROP POLICY IF EXISTS "Accès public en lecture programs" ON public.programs;
 CREATE POLICY "Accès public en lecture programs" ON public.programs FOR SELECT USING (true);
+DROP POLICY IF EXISTS "Accès public en écriture programs" ON public.programs;
 CREATE POLICY "Accès public en écriture programs" ON public.programs FOR ALL USING (true);
 
+DROP POLICY IF EXISTS "Accès public en lecture gallery" ON public.gallery;
+CREATE POLICY "Accès public en lecture gallery" ON public.gallery FOR SELECT USING (true);
+DROP POLICY IF EXISTS "Accès public en écriture gallery" ON public.gallery;
+CREATE POLICY "Accès public en écriture gallery" ON public.gallery FOR ALL USING (true);
+
+DROP POLICY IF EXISTS "Accès public écriture messages" ON public.messages;
 CREATE POLICY "Accès public écriture messages" ON public.messages FOR INSERT WITH CHECK (true);
+DROP POLICY IF EXISTS "Accès public lecture messages" ON public.messages;
 CREATE POLICY "Accès public lecture messages" ON public.messages FOR SELECT USING (true);
 
+DROP POLICY IF EXISTS "Accès public écriture church_members" ON public.church_members;
 CREATE POLICY "Accès public écriture church_members" ON public.church_members FOR ALL USING (true);
+DROP POLICY IF EXISTS "Accès public lecture church_members" ON public.church_members;
 CREATE POLICY "Accès public lecture church_members" ON public.church_members FOR SELECT USING (true);
 
+DROP POLICY IF EXISTS "Accès public lecture settings" ON public.settings;
 CREATE POLICY "Accès public lecture settings" ON public.settings FOR SELECT USING (true);
+DROP POLICY IF EXISTS "Accès public mise à jour settings" ON public.settings;
 CREATE POLICY "Accès public mise à jour settings" ON public.settings FOR ALL USING (true);

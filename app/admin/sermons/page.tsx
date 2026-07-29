@@ -13,13 +13,16 @@ export default function AdminSermonsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Form State for new sermon
+  // Form State for new/edit sermon
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [title, setTitle] = useState("");
   const [preacher, setPreacher] = useState("Rev. Dr. HOUEKIN");
   const [category, setCategory] = useState<'Vidéo' | 'Audio' | 'PDF' | 'Live'>("Vidéo");
   const [duration, setDuration] = useState("");
   const [description, setDescription] = useState("");
+  const [videoUrl, setVideoUrl] = useState("");
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
+  const [existingThumbnail, setExistingThumbnail] = useState<string | null>(null);
 
   useEffect(() => {
     async function loadData() {
@@ -35,7 +38,7 @@ export default function AdminSermonsPage() {
     if (!title || !preacher) return;
     setIsSubmitting(true);
 
-    let thumbnailUrl = "https://images.unsplash.com/photo-1544427920-c49ccfb85579?q=80&w=800&auto=format&fit=crop";
+    let thumbnailUrl = existingThumbnail || "https://images.unsplash.com/photo-1544427920-c49ccfb85579?q=80&w=800&auto=format&fit=crop";
 
     if (thumbnailFile) {
       const uploadedUrl = await uploadMediaFile(thumbnailFile, 'sermons');
@@ -44,32 +47,69 @@ export default function AdminSermonsPage() {
       }
     }
 
-    const newSermon: Sermon = {
-      id: `sermon-${Date.now()}`,
+    const sermonData: any = {
       title,
       preacher,
-      date: new Date().toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" }),
       category,
       thumbnail: thumbnailUrl,
       duration,
-      description: description || "Message d'édification spirituelle."
+      description: description || "Message d'édification spirituelle.",
+      videoUrl: videoUrl || undefined
     };
 
-    const success = await createSermon(newSermon);
+    let success = false;
+    let finalSermon: Sermon;
+
+    if (editingId) {
+      const { updateSermon } = await import("@/lib/services/sermonsService");
+      success = await updateSermon(editingId, sermonData);
+      finalSermon = { ...sermonList.find(s => s.id === editingId)!, ...sermonData };
+      if (success) {
+        setSermonList(sermonList.map(s => s.id === editingId ? finalSermon : s));
+      }
+    } else {
+      sermonData.id = `sermon-${Date.now()}`;
+      sermonData.date = new Date().toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
+      success = await createSermon(sermonData);
+      finalSermon = sermonData as Sermon;
+      if (success) {
+        setSermonList([finalSermon, ...sermonList]);
+      }
+    }
+
     if (success) {
-      setSermonList([newSermon, ...sermonList]);
       setShowModal(false);
-      
-      // Reset form
-      setTitle("");
-      setDuration("");
-      setDescription("");
-      setThumbnailFile(null);
+      resetForm();
     } else {
       alert("Erreur lors de l'enregistrement de la prédication.");
     }
     
     setIsSubmitting(false);
+  };
+
+  const resetForm = () => {
+    setEditingId(null);
+    setTitle("");
+    setPreacher("Rev. Dr. HOUEKIN");
+    setCategory("Vidéo");
+    setDuration("");
+    setDescription("");
+    setVideoUrl("");
+    setThumbnailFile(null);
+    setExistingThumbnail(null);
+  };
+
+  const openEditModal = (sermon: Sermon) => {
+    setEditingId(sermon.id);
+    setTitle(sermon.title);
+    setPreacher(sermon.preacher);
+    setCategory(sermon.category);
+    setDuration(sermon.duration || "");
+    setDescription(sermon.description || "");
+    setVideoUrl(sermon.videoUrl || "");
+    setExistingThumbnail(sermon.thumbnail);
+    setThumbnailFile(null);
+    setShowModal(true);
   };
 
   const handleDelete = async (id: string) => {
@@ -97,7 +137,7 @@ export default function AdminSermonsPage() {
         </div>
 
         <button
-          onClick={() => setShowModal(true)}
+          onClick={() => { resetForm(); setShowModal(true); }}
           className="bg-primary hover:bg-primary-container text-white px-5 py-2.5 rounded-2xl font-bold text-xs transition-all shadow-md flex items-center justify-center gap-2 shrink-0"
         >
           <Plus className="w-4 h-4" />
@@ -165,6 +205,13 @@ export default function AdminSermonsPage() {
                     <td className="p-4 font-mono">{sermon.duration || "-"}</td>
                     <td className="p-4 text-right space-x-2">
                       <button
+                        onClick={() => openEditModal(sermon)}
+                        className="p-2 text-blue-600 hover:bg-blue-50 rounded-xl transition-colors"
+                        title="Modifier"
+                      >
+                        <Edit3 className="w-4 h-4" />
+                      </button>
+                      <button
                         onClick={() => handleDelete(sermon.id)}
                         className="p-2 text-rose-600 hover:bg-rose-50 rounded-xl transition-colors"
                         title="Supprimer"
@@ -185,8 +232,8 @@ export default function AdminSermonsPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
           <div className="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 space-y-6 shadow-2xl border border-white/20 relative">
             <div className="flex justify-between items-center pb-3 border-b border-outline-variant/20">
-              <h3 className="font-display font-bold text-lg text-primary">Nouvelle Prédication</h3>
-              <button onClick={() => setShowModal(false)} className="text-on-surface-variant hover:text-on-surface font-bold text-sm">✕</button>
+              <h3 className="font-display font-bold text-lg text-primary">{editingId ? "Modifier Prédication" : "Nouvelle Prédication"}</h3>
+              <button onClick={() => { setShowModal(false); resetForm(); }} className="text-on-surface-variant hover:text-on-surface font-bold text-sm">✕</button>
             </div>
 
             <form onSubmit={handleAddSermon} className="space-y-4 text-xs">
@@ -196,6 +243,8 @@ export default function AdminSermonsPage() {
                 <div className="w-16 h-16 rounded-xl bg-white flex items-center justify-center shrink-0 border border-outline-variant/30 overflow-hidden relative">
                   {thumbnailFile ? (
                     <img src={URL.createObjectURL(thumbnailFile)} alt="Preview" className="w-full h-full object-cover" />
+                  ) : existingThumbnail ? (
+                    <img src={existingThumbnail} alt="Preview" className="w-full h-full object-cover" />
                   ) : (
                     <ImageIcon className="w-6 h-6 text-on-surface-variant/50" />
                   )}
@@ -251,6 +300,17 @@ export default function AdminSermonsPage() {
               </div>
 
               <div>
+                <label className="block font-bold text-on-surface mb-1">Lien Vidéo (YouTube)</label>
+                <input
+                  type="url"
+                  placeholder="Ex: https://www.youtube.com/watch?v=..."
+                  value={videoUrl}
+                  onChange={(e) => setVideoUrl(e.target.value)}
+                  className="w-full bg-surface-container-low border border-outline-variant/30 rounded-2xl px-4 py-3 text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary"
+                />
+              </div>
+
+              <div>
                 <label className="block font-bold text-on-surface mb-1">Durée (optionnel)</label>
                 <input
                   type="text"
@@ -275,7 +335,7 @@ export default function AdminSermonsPage() {
               <div className="pt-3 flex gap-3 justify-end">
                 <button
                   type="button"
-                  onClick={() => setShowModal(false)}
+                  onClick={() => { setShowModal(false); resetForm(); }}
                   disabled={isSubmitting}
                   className="px-5 py-2.5 rounded-2xl border border-outline-variant/30 text-on-surface-variant font-bold hover:bg-surface-container-low disabled:opacity-50"
                 >

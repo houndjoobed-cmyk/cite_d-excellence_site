@@ -1,3 +1,5 @@
+import maman from "@/assets/maman.jpg";
+import papa from "@/assets/papa.jpg";
 export interface Program {
   id: string;
   title: string;
@@ -42,18 +44,18 @@ export const CHURCH_INFO = {
   subtitle: "La Cité d'Excellence",
   tagline: "Bâtir une génération d'excellence par la Puissance du Saint-Esprit.",
   description: "Un lieu où la foi rencontre l'excellence, et où chaque vie est transformée par la puissance de la parole de Dieu.",
-  address: "Cotonou, Bénin",
-  phone: "+229 21 00 00 00",
-  whatsapp: "+229 90 00 00 00",
-  email: "contact@houekin.org",
+  address: "Abomey-calavi, Bénin",
+  phone: "+229 01 65 18 56 30",
+  whatsapp: "+229 01 65 18 56 30",
+  email: "citedexcellence01@gmail.com",
   foundingYear: 2004,
   yearsOfImpact: "20+",
-  liveUrl: "https://youtube.com",
+  liveUrl: "https://www.youtube.com/@Cit%C3%A9dexcellencehm",
   socials: {
-    facebook: "https://facebook.com",
-    youtube: "https://youtube.com",
+    facebook: "https://www.facebook.com/profile.php?id=61577961128556",
+    youtube: "https://www.youtube.com/@Cit%C3%A9dexcellencehm",
     instagram: "https://instagram.com",
-    whatsapp: "https://wa.me/22990000000",
+    whatsapp: "https://wa.me/2290165185630",
   },
   donations: {
     kkiapayLink: "https://chapchap.kkiapay.me/742aF0blmCbflT4H-1186",
@@ -64,32 +66,32 @@ export const CHURCH_INFO = {
 export const PROGRAMS: Program[] = [
   {
     id: "culte-dimanche",
-    title: "Culte d'Excellence & de Percée",
+    title: "Culte de Gloire et de Prophétie",
     category: "Culte",
     day: "Dimanche",
-    time: "09:00 - 12:00",
-    location: "Sanctuaire Principal, Cotonou",
+    time: "09:00 - 11h:30",
+    location: "Abomey-calavi, Bénin",
     description: "Célébration, louange prophétique et message transformateur pour bien commencer la semaine.",
     icon: "church"
   },
   {
-    id: "ecole-du-sabbat",
-    title: "École du Sabbat & Étude Biblique",
-    category: "Étude",
+    id: "Culte",
+    title: "Culte de Famille",
+    category: "Culte",
     day: "Mercredi",
-    time: "18:30 - 20:30",
-    location: "Salle d'Édification",
+    time: "19h:00 - 21h:00",
+    location: "Abomey-calavi, Bénin",
     description: "Approfondissement des Écritures et étude biblique thématique pour la croissance spirituelle.",
     icon: "menu_book"
   },
   {
-    id: "nuit-de-priere",
-    title: "Nuit de Prière & d'Intercession",
-    category: "Veillée",
-    day: "Vendredi",
-    time: "22:00 - 04:00",
-    location: "Sanctuaire Principal",
-    description: "Combat spirituel intense et intercession prophétique pour briser tous les jougs.",
+    id: "Ecole des leaders",
+    title: "Ecole des leaders",
+    category: "Étude",
+    day: "jeudi",
+    time: "19h:30 - 22h:00",
+    location: "Abomey-calavi, Bénin",
+    description: "Approfondissement des Écritures et étude biblique thématique pour la croissance spirituelle.",
     icon: "fireplace"
   }
 ];
@@ -150,89 +152,90 @@ export const SERMONS: Sermon[] = [
 export const DEPARTMENTS: Department[] = [
   {
     id: "jeunesse",
-    name: "Jeunesse d'Excellence",
-    leader: "Resp. Emmanuel G.",
-    meetingDay: "Samedi à 16:00",
-    location: "Salle Annexe",
+    name: "Espace Jeune D'Impact",
+    leader: "Resp. AP Joachim.",
+    meetingDay: "Samedi à 15h:00",
+    location: "Abomey-calavi, Bénin",
     description: "Rassemblement dynamique des jeunes pour développer leurs talents, leur foi et leur leadership.",
     icon: "groups"
   },
   {
     id: "chorale",
-    name: "Chorale & Louange Prophétique",
-    leader: "Chantre Sarah K.",
-    meetingDay: "Jeudi à 18:30",
-    location: "Sanctuaire Principal",
+    name: "Groupe musical",
+    leader: "Resp. Fr DJOSSOU.",
+    meetingDay: "Samedi à 18h:00",
+    location: "Abomey-calavi, Bénin",
     description: "Ministère de louange conduisant le peuple dans l'adoration et la présence de Dieu.",
     icon: "music_note"
   },
   {
     id: "femmes",
-    name: "Département des Femmes de Valeur",
-    leader: "Pasteur Mme Houekin",
-    meetingDay: "1er Samedi du mois",
-    location: "Grande Salle",
+    name: "Femmes d'excellence",
+    leader: "Pasteur Orphelia ALLADAYE",
+    meetingDay: "Mardi 09h-00",
+    location: "Abomey-calavi, Bénin",
     description: "Soutenir, équiper et inspirer les femmes dans leurs foyers, carrières et ministères.",
     icon: "woman"
   },
-  {
-    id: "hommes",
-    name: "Hommes d'Impact & d'Honneur",
-    leader: "Diacre Marc T.",
-    meetingDay: "2ème Samedi du mois",
-    location: "Salle de Conférence",
-    description: "Bâtir des hommes intègres, piliers dans leurs familles et dans la communauté.",
-    icon: "man"
-  },
+
   {
     id: "enfants",
-    name: "ÉCODIM (Église des Enfants)",
-    leader: "Monitrice Grace A.",
-    meetingDay: "Dimanche à 09:00",
-    location: "Salles Écodim",
+    name: "Église des Enfants",
+    leader: "Monitrice Jacqueline AHONON.",
+    meetingDay: "Mercredi 15h00-17h00",
+    location: "Abomey-calavi, Bénin",
     description: "Enseignement ludique et spirituel adapté aux enfants de 3 à 12 ans.",
     icon: "child_care"
   },
   {
     id: "intercession",
-    name: "Armée d'Intercession",
-    leader: "Responsable Paulin N.",
-    meetingDay: "Mardi à 18:00",
-    location: "Chambre de Prière",
+    name: "Groupe d'Intercession",
+    leader: "Responsable .",
+    meetingDay: "Mardi à 18h:00",
+    location: "Abomey-calavi, Bénin",
     description: "Veille spirituelle et prière continue pour les membres, les dirigeants et la nation.",
     icon: "volunteer_activism"
   },
   {
     id: "media",
     name: "Média & Communication",
-    leader: "Ing. David H.",
-    meetingDay: "Mardi à 19:00",
-    location: "Studio Média",
+    leader: "Res Fr Ezechiel.",
+    meetingDay: "Toute la semaine",
+    location: "Abomey-calavi, Bénin",
     description: "Captation vidéo, diffusion live, graphisme et gestion des réseaux sociaux.",
     icon: "videocam"
   },
   {
-    id: "protocole",
-    name: "Protocole & Accueil",
-    leader: "Diaconesse Blandine O.",
-    meetingDay: "Samedi à 17:00",
+    id: "hotesses",
+    name: "Hôtesses & Accueil",
+    leader: "Sr Merveille AGANNI .",
+    meetingDay: "Tout les dimanche",
     location: "Hall d'Accueil",
     description: "Accueil chaleureux, orientation des visiteurs et organisation des assemblées.",
     icon: "diversity_3"
+  },
+  {
+    id: "protocole",
+    name: "Protocole",
+    leader: "Resp. Fr Prince.",
+    meetingDay: "Tout les diamnche",
+    location: "Abomey-calavi, Bénin",
+    description: "Assurer la sécurité et le bon déroulement des cultes et des réunions de la semaine.",
+    icon: "groups"
   }
 ];
 
 export const PASTORS: Pastor[] = [
   {
-    name: "Rev. Dr. HOUEKIN",
+    name: "Rev. Dr. HOUEKIN HANGBE Fidèle",
     role: "Pasteur Principal & Visionnaire",
     bio: "Fondateur de HOUEKIN MINISTRIES, passionné par la prédication de la parole de foi et le développement du potentiel spirituel des croyants.",
-    photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600&auto=format&fit=crop"
+    photo: papa.src
   },
   {
-    name: "Pasteur Grace HOUEKIN",
-    role: "Co-Pasteure & Responsable des Femmes",
+    name: "Rev. Dr. HOUEKIN HANGBE Augustine",
+    role: "Pasteure ",
     bio: "Engagée dans l'accompagnement des familles, l'intercession et l'épanouissement des femmes de valeur dans le royaume.",
-    photo: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop"
+    photo: maman.src
   }
 ];

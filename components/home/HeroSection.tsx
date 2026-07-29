@@ -64,8 +64,8 @@ export default function HeroSection() {
           </div>
           <div>
             <p className="text-on-surface-variant font-bold text-xs uppercase tracking-wider">Prochain Culte</p>
-            <p className="text-primary font-extrabold text-lg">Dimanche à 09h00-11h30</p>
-            <p className="text-on-surface text-xs font-medium opacity-80">Culte de Gloire & Prophétique</p>
+            <p className="text-primary font-extrabold text-lg">Dimanche à 09:00 - 11h:30</p>
+            <p className="text-on-surface text-xs font-medium opacity-80">Culte de Gloire et de Prophétie</p>
           </div>
         </div>
       </div>

@@ -1,38 +1,58 @@
 "use client";
 
-import { useState } from "react";
-import { Plus, Trash2, Image, Video } from "lucide-react";
+import { useState, useEffect } from "react";
+import { fetchGallery, createGalleryMedia, deleteGalleryMedia, GalleryMedia } from "@/lib/services/galleryService";
+import { Plus, Trash2, Image, Video, Loader2 } from "lucide-react";
 
 export default function AdminGalleryPage() {
-  const [mediaList, setMediaList] = useState([
-    { id: "m-1", title: "Culte d'Excellence", image: "https://images.unsplash.com/photo-1544427920-c49ccfb85579?q=80&w=800&auto=format&fit=crop", type: "Photo" },
-    { id: "m-2", title: "Louange & Adoration", image: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=800&auto=format&fit=crop", type: "Photo" },
-    { id: "m-3", title: "Nuit de Prière", image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=800&auto=format&fit=crop", type: "Photo" },
-    { id: "m-4", title: "Jeunesse d'Excellence", image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=800&auto=format&fit=crop", type: "Photo" },
-  ]);
-
+  const [mediaList, setMediaList] = useState<GalleryMedia[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [title, setTitle] = useState("");
   const [image, setImage] = useState("");
 
-  const handleAddMedia = (e: React.FormEvent) => {
+  useEffect(() => {
+    async function loadData() {
+      const data = await fetchGallery();
+      setMediaList(data);
+      setIsLoading(false);
+    }
+    loadData();
+  }, []);
+
+  const handleAddMedia = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title || !image) return;
+    setIsSubmitting(true);
 
-    setMediaList([...mediaList, {
+    const newMedia: GalleryMedia = {
       id: `m-${Date.now()}`,
       title,
       image,
       type: "Photo"
-    }]);
+    };
 
-    setShowModal(false);
-    setTitle("");
-    setImage("");
+    const success = await createGalleryMedia(newMedia);
+    if (success) {
+      setMediaList([newMedia, ...mediaList]);
+      setShowModal(false);
+      setTitle("");
+      setImage("");
+    } else {
+      alert("Erreur lors de l'enregistrement de l'image.");
+    }
+    
+    setIsSubmitting(false);
   };
 
-  const handleDelete = (id: string) => {
-    setMediaList(mediaList.filter(m => m.id !== id));
+  const handleDelete = async (id: string) => {
+    if (confirm("Êtes-vous sûr de vouloir supprimer cette image ?")) {
+      const success = await deleteGalleryMedia(id);
+      if (success) {
+        setMediaList(mediaList.filter(m => m.id !== id));
+      }
+    }
   };
 
   return (
@@ -55,8 +75,17 @@ export default function AdminGalleryPage() {
       </div>
 
       {/* Grid */}
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {mediaList.map((item) => (
+      {isLoading ? (
+        <div className="flex justify-center p-12">
+          <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        </div>
+      ) : mediaList.length === 0 ? (
+        <div className="bg-white p-12 rounded-3xl border border-outline-variant/20 shadow-md text-center text-on-surface-variant">
+          Aucune image dans la galerie.
+        </div>
+      ) : (
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {mediaList.map((item) => (
           <div key={item.id} className="bg-white rounded-3xl overflow-hidden border border-outline-variant/20 shadow-md relative group">
             <div className="aspect-square relative">
               <img
@@ -78,6 +107,7 @@ export default function AdminGalleryPage() {
           </div>
         ))}
       </div>
+      )}
 
       {/* Modal */}
       {showModal && (
@@ -123,9 +153,11 @@ export default function AdminGalleryPage() {
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 rounded-2xl bg-primary text-white font-bold hover:bg-primary-container shadow-md"
+                  disabled={isSubmitting}
+                  className="px-6 py-2.5 rounded-2xl bg-primary text-white font-bold hover:bg-primary-container shadow-md disabled:opacity-70 flex items-center gap-2"
                 >
-                  Ajouter
+                  {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
+                  <span>Ajouter</span>
                 </button>
               </div>
             </form>

@@ -1,25 +1,59 @@
 "use client";
 
-import { useState } from "react";
-import { CHURCH_INFO } from "@/lib/constants";
+import { useState, useEffect } from "react";
+import { fetchSettings, updateSettings, ChurchSettings } from "@/lib/services/settingsService";
 import { Save, CheckCircle2, Building, Smartphone, Landmark, Share2 } from "lucide-react";
 
 export default function AdminSettingsPage() {
   const [saved, setSaved] = useState(false);
 
-  const [churchName, setChurchName] = useState(CHURCH_INFO.name);
-  const [subtitle, setSubtitle] = useState(CHURCH_INFO.subtitle);
-  const [address, setAddress] = useState(CHURCH_INFO.address);
-  const [phone, setPhone] = useState(CHURCH_INFO.phone);
-  const [whatsapp, setWhatsapp] = useState(CHURCH_INFO.whatsapp);
-  const [email, setEmail] = useState(CHURCH_INFO.email);
-  const [kkiapayLink, setKkiapayLink] = useState(CHURCH_INFO.donations.kkiapayLink);
-  const [kkiapayUssd, setKkiapayUssd] = useState(CHURCH_INFO.donations.kkiapayUssd);
+  const [isLoading, setIsLoading] = useState(true);
+  const [churchName, setChurchName] = useState("");
+  const [subtitle, setSubtitle] = useState("");
+  const [address, setAddress] = useState("");
+  const [phone, setPhone] = useState("");
+  const [whatsapp, setWhatsapp] = useState("");
+  const [email, setEmail] = useState("");
+  const [kkiapayLink, setKkiapayLink] = useState("");
+  const [kkiapayUssd, setKkiapayUssd] = useState("");
 
-  const handleSave = (e: React.FormEvent) => {
+  useEffect(() => {
+    async function loadData() {
+      const data = await fetchSettings();
+      setChurchName(data.churchName);
+      setSubtitle(data.subtitle);
+      setAddress(data.address);
+      setPhone(data.phone);
+      setWhatsapp(data.whatsapp);
+      setEmail(data.email);
+      setKkiapayLink(data.kkiapayLink);
+      setKkiapayUssd(data.kkiapayUssd);
+      setIsLoading(false);
+    }
+    loadData();
+  }, []);
+
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSaved(true);
-    setTimeout(() => setSaved(false), 3000);
+    const newSettings: ChurchSettings = {
+      id: 'default',
+      churchName,
+      subtitle,
+      address,
+      phone,
+      whatsapp,
+      email,
+      kkiapayLink,
+      kkiapayUssd
+    };
+
+    const success = await updateSettings(newSettings);
+    if (success) {
+      setSaved(true);
+      setTimeout(() => setSaved(false), 3000);
+    } else {
+      alert("Erreur lors de la sauvegarde.");
+    }
   };
 
   return (
@@ -40,7 +74,7 @@ export default function AdminSettingsPage() {
         )}
       </div>
 
-      <form onSubmit={handleSave} className="space-y-6 text-xs">
+      <form onSubmit={handleSave} className={`space-y-6 text-xs ${isLoading ? 'opacity-50 pointer-events-none' : ''}`}>
         
         {/* Section 1: General Info */}
         <div className="bg-white p-6 rounded-3xl border border-outline-variant/20 shadow-md space-y-4">

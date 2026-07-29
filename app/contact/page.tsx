@@ -87,12 +87,18 @@ export default function ContactPage() {
           </div>
 
           {/* Map Card */}
-          <div className="rounded-3xl overflow-hidden border-2 border-outline-variant/30 shadow-md h-64 bg-surface-container-low flex items-center justify-center text-center p-6">
-            <div className="space-y-2">
-              <MapPin className="w-8 h-8 text-primary mx-auto" />
-              <p className="font-display font-bold text-sm text-on-surface">Eglise Principal - HOUEKIN MINISTRIES- La cite d'excellence</p>
-              <p className="text-xs text-on-surface-variant">Abomey-calavi, En face du petit portail du campus.</p>
-            </div>
+          <div className="rounded-3xl overflow-hidden border-2 border-outline-variant/30 shadow-md h-80 bg-surface-container-low relative">
+            <iframe 
+              src="https://maps.google.com/maps?q=6.416534,2.345901&t=&z=16&ie=UTF8&iwloc=B&output=embed" 
+              width="100%" 
+              height="100%" 
+              style={{ border: 0 }} 
+              allowFullScreen={true} 
+              loading="lazy" 
+              referrerPolicy="no-referrer-when-downgrade"
+              className="absolute inset-0"
+              title="Localisation de l'église"
+            ></iframe>
           </div>
         </div>
 

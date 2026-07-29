@@ -26,7 +26,7 @@ export default function AboutSection() {
             </div>
             <div>
               <span className="text-primary font-extrabold text-xl block leading-tight">Années de distinction</span>
-              <span className="text-on-surface-variant text-xs font-semibold">Transformant des vies au Bénin</span>
+              <span className="text-on-surface-variant text-xs font-semibold">Transformant des vies dans tout le monde entier</span>
             </div>
           </div>
         </div>
@@ -48,7 +48,7 @@ export default function AboutSection() {
               </div>
               <div>
                 <h4 className="font-display font-bold text-lg text-on-surface">Notre Vision</h4>
-                <p className="text-on-surface-variant text-sm mt-1">Influencer le monde par l'Évangile de la Gloire de Dieu et bâtir des leaders d'impact.</p>
+                <p className="text-on-surface-variant text-sm mt-1">Faites de toutes les nations des disciples de Christ (Matthieu 28:19) et confiez l'enseignement à des hommes fidèles (2 Timothée 2:2).</p>
               </div>
             </div>
 
@@ -57,8 +57,8 @@ export default function AboutSection() {
                 <Rocket className="w-6 h-6" />
               </div>
               <div>
-                <h4 className="font-display font-bold text-lg text-on-surface">Notre Mission</h4>
-                <p className="text-on-surface-variant text-sm mt-1">Formes des disciples affermis, marchant dans l'excellence divine, l'amour et la puissance de la parole.</p>
+                <h4 className="font-display font-bold text-lg text-on-surface">Notre But</h4>
+                <p className="text-on-surface-variant text-sm mt-1">Glorifier Dieu en formant des disciples qui l'exaltent, édifier les croyants, et évangéliser le monde entier.</p>
               </div>
             </div>
           </div>
