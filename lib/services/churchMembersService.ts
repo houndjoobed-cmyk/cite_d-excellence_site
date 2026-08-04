@@ -58,6 +58,7 @@ export async function fetchChurchMembers(): Promise<ChurchMember[]> {
       baptismDate: item.baptism_date || '',
       conversionDate: item.conversion_date || '',
       spiritualGifts: item.spiritual_gifts || '',
+      signatureUrl: item.signature_url || '',
       status: item.status || 'Membre Actif',
       registrationDate: item.registration_date || new Date(item.created_at || Date.now()).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })
     }));
@@ -118,6 +119,7 @@ export async function createChurchMember(memberData: Omit<ChurchMember, "id" | "
         baptism_date: memberData.baptismDate || '',
         conversion_date: memberData.conversionDate || '',
         spiritual_gifts: memberData.spiritualGifts || '',
+        signature_url: memberData.signatureUrl || '',
         status: memberData.status || 'Membre Actif',
         registration_date: regDate
       }
@@ -231,6 +233,7 @@ export async function updateChurchMember(id: string, updates: Partial<ChurchMemb
     if (updates.baptismDate !== undefined) updateData.baptism_date = updates.baptismDate;
     if (updates.conversionDate !== undefined) updateData.conversion_date = updates.conversionDate;
     if (updates.spiritualGifts !== undefined) updateData.spiritual_gifts = updates.spiritualGifts;
+    if (updates.signatureUrl !== undefined) updateData.signature_url = updates.signatureUrl;
     if (updates.status !== undefined) updateData.status = updates.status;
 
     await supabase

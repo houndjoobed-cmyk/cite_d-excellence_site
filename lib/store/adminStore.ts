@@ -39,6 +39,7 @@ export interface ChurchMember {
   baptismDate?: string;
   conversionDate?: string;
   spiritualGifts?: string;
+  signatureUrl?: string;
   status: 'Nouveau' | 'Membre Actif' | 'Ancien';
   registrationDate: string;
 }

@@ -152,6 +152,8 @@ export default function AdminMembersPage() {
             <option value="Louange & Adoration">Louange & Adoration</option>
             <option value="Accueil & Protocole">Accueil & Protocole</option>
             <option value="Intercession & Prières">Intercession & Prières</option>
+            <option value="Evangélisation">Evangélisation</option>
+            <option value="Nettoyage">Nettoyage</option>
             <option value="Département des Femmes">Département des Femmes</option>
             <option value="Jeunesse d'Excellence">Jeunesse d'Excellence</option>
             <option value="École du Dimanche (Enfants)">École du Dimanche</option>

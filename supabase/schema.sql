@@ -66,6 +66,7 @@ CREATE TABLE IF NOT EXISTS public.church_members (
   baptism_date VARCHAR(50),                  -- Optionnel
   conversion_date VARCHAR(50),               -- Optionnel
   spiritual_gifts TEXT,                      -- Optionnel
+  signature_url TEXT,                        -- Optionnel (Signature du membre)
   status VARCHAR(50) DEFAULT 'Membre Actif', -- Nouveau / Membre Actif / Ancien
   registration_date VARCHAR(100) NOT NULL,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { createChurchMember, checkDuplicateMember } from "@/lib/services/churchMembersService";
 import MemberCard from "@/components/members/MemberCard";
 import PhotoUploader from "@/components/members/PhotoUploader";
+import SignaturePad from "@/components/members/SignaturePad";
 import { ChurchMember } from "@/lib/store/adminStore";
 import { 
   User, 
@@ -56,6 +57,7 @@ export default function NewMemberFormPage() {
   const [cellLeader, setCellLeader] = useState("");
   const [cellGroup, setCellGroup] = useState("");
   const [status, setStatus] = useState("");
+  const [signatureUrl, setSignatureUrl] = useState("");
 
   // Validate each step before allowing next
   function validateStep(step: number): string[] {
@@ -134,6 +136,7 @@ export default function NewMemberFormPage() {
       department,
       cellLeader: cellLeader.trim(),
       cellGroup: cellGroup.trim(),
+      signatureUrl,
       status: status as any
     });
 
@@ -420,6 +423,14 @@ export default function NewMemberFormPage() {
                 </div>
 
                 <PhotoUploader value={photoUrl} onChange={setPhotoUrl} />
+
+                <div className="pt-2">
+                  <SignaturePad
+                    value={signatureUrl}
+                    onChange={setSignatureUrl}
+                    label="Signature du Membre (Dessiner ou Importer)"
+                  />
+                </div>
               </div>
             )}
 
@@ -622,6 +633,8 @@ export default function NewMemberFormPage() {
                       <option value="Louange & Adoration">Louange & Adoration</option>
                       <option value="Accueil & Protocole">Accueil & Protocole</option>
                       <option value="Intercession & Prières">Intercession & Prières</option>
+                      <option value="Evangélisation">Evangélisation</option>
+                      <option value="Nettoyage">Nettoyage</option>
                       <option value="Département des Femmes">Département des Femmes</option>
                       <option value="Jeunesse d'Excellence">Jeunesse d'Excellence</option>
                       <option value="École du Dimanche (Enfants)">École du Dimanche (Enfants)</option>

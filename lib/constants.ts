@@ -223,6 +223,24 @@ export const DEPARTMENTS: Department[] = [
     location: "Abomey-calavi, Bénin",
     description: "Assurer la sécurité et le bon déroulement des cultes et des réunions de la semaine.",
     icon: "groups"
+  },
+  {
+    id: "evangelisation",
+    name: "Evangélisation",
+    leader: "Responsable Evangélisation",
+    meetingDay: "Samedi",
+    location: "Abomey-calavi, Bénin",
+    description: "Proclamation de l'Évangile, sorties d'évangélisation et conquête des âmes.",
+    icon: "campaign"
+  },
+  {
+    id: "nettoyage",
+    name: "Nettoyage",
+    leader: "Responsable Nettoyage",
+    meetingDay: "Samedi",
+    location: "Abomey-calavi, Bénin",
+    description: "Entretien, propreté et aménagement des locaux de l'église pour accueillir la présence de Dieu.",
+    icon: "cleaning_services"
   }
 ];
 

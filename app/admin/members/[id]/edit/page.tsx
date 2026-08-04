@@ -6,6 +6,7 @@ import Link from "next/link";
 import { fetchChurchMembers, updateChurchMember } from "@/lib/services/churchMembersService";
 import { ChurchMember } from "@/lib/store/adminStore";
 import PhotoUploader from "@/components/members/PhotoUploader";
+import SignaturePad from "@/components/members/SignaturePad";
 import { ArrowLeft, Save, CheckCircle2, AlertCircle } from "lucide-react";
 
 export default function EditMemberPage() {
@@ -153,6 +154,13 @@ export default function EditMemberPage() {
             </div>
           </div>
           <PhotoUploader value={formData.photoUrl || ""} onChange={url => handleChange("photoUrl", url)} />
+          <div className="pt-2">
+            <SignaturePad
+              value={formData.signatureUrl || ""}
+              onChange={url => handleChange("signatureUrl", url)}
+              label="Signature du Membre (Dessiner ou Importer)"
+            />
+          </div>
         </div>
 
         {/* Section 2: Coordonnées & Urgence */}
@@ -244,6 +252,8 @@ export default function EditMemberPage() {
                 <option value="Louange & Adoration">Louange & Adoration</option>
                 <option value="Accueil & Protocole">Accueil & Protocole</option>
                 <option value="Intercession & Prières">Intercession & Prières</option>
+                <option value="Evangélisation">Evangélisation</option>
+                <option value="Nettoyage">Nettoyage</option>
                 <option value="Département des Femmes">Département des Femmes</option>
                 <option value="Jeunesse d'Excellence">Jeunesse d'Excellence</option>
                 <option value="École du Dimanche (Enfants)">École du Dimanche (Enfants)</option>

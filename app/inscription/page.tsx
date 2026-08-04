@@ -5,6 +5,7 @@ import Link from "next/link";
 import { createChurchMember, checkDuplicateMember } from "@/lib/services/churchMembersService";
 import MemberCard from "@/components/members/MemberCard";
 import PhotoUploader from "@/components/members/PhotoUploader";
+import SignaturePad from "@/components/members/SignaturePad";
 import { ChurchMember } from "@/lib/store/adminStore";
 import { 
   User, 
@@ -56,6 +57,7 @@ export default function PublicRegistrationPage() {
   const [department, setDepartment] = useState("");
   const [cellLeader, setCellLeader] = useState("");
   const [cellGroup, setCellGroup] = useState("");
+  const [signatureUrl, setSignatureUrl] = useState("");
   
   // Public users are implicitly "Nouveau Fidèle" or "Membre Actif", let's default to "Nouveau Fidèle"
   // but let them choose their department
@@ -92,6 +94,7 @@ export default function PublicRegistrationPage() {
         if (parsed.department) setDepartment(parsed.department);
         if (parsed.cellLeader) setCellLeader(parsed.cellLeader);
         if (parsed.cellGroup) setCellGroup(parsed.cellGroup);
+        if (parsed.signatureUrl) setSignatureUrl(parsed.signatureUrl);
       } catch (e) {
         console.warn("Erreur de chargement du brouillon", e);
       }
@@ -106,14 +109,14 @@ export default function PublicRegistrationPage() {
       currentStep, lastName, firstName, gender, birthDate, photoUrl, maritalStatus,
       profession, educationLevel, address, neighborhood, phone, email, emergencyContactName,
       emergencyContactPhone, ethnicOrigin, activityDomain, churchArrivalDate, conversionDate,
-      baptismStatus, baptismDate, spiritualGifts, department, cellLeader, cellGroup
+      baptismStatus, baptismDate, spiritualGifts, department, cellLeader, cellGroup, signatureUrl
     };
     localStorage.setItem("church_registration_draft", JSON.stringify(draft));
   }, [
     isLoaded, createdMember, currentStep, lastName, firstName, gender, birthDate, photoUrl, maritalStatus,
     profession, educationLevel, address, neighborhood, phone, email, emergencyContactName,
     emergencyContactPhone, ethnicOrigin, activityDomain, churchArrivalDate, conversionDate,
-    baptismStatus, baptismDate, spiritualGifts, department, cellLeader, cellGroup
+    baptismStatus, baptismDate, spiritualGifts, department, cellLeader, cellGroup, signatureUrl
   ]);
 
   function validateStep(step: number): string[] {
@@ -188,6 +191,7 @@ export default function PublicRegistrationPage() {
       department,
       cellLeader: cellLeader.trim(),
       cellGroup: cellGroup.trim(),
+      signatureUrl,
       status: status as any
     });
 
@@ -516,6 +520,8 @@ export default function PublicRegistrationPage() {
                       <option value="Louange & Adoration">Louange & Adoration</option>
                       <option value="Accueil & Protocole">Accueil & Protocole</option>
                       <option value="Intercession & Prières">Intercession & Prières</option>
+                      <option value="Evangélisation">Evangélisation</option>
+                      <option value="Nettoyage">Nettoyage</option>
                       <option value="Département des Femmes">Département des Femmes</option>
                       <option value="Jeunesse d'Excellence">Jeunesse d'Excellence</option>
                       <option value="École du Dimanche (Enfants)">École du Dimanche (Enfants)</option>
@@ -531,6 +537,15 @@ export default function PublicRegistrationPage() {
                       <label className="block font-bold text-on-surface mb-1">Quartier de la cellule <span className="text-on-surface-variant font-normal">(Facultatif)</span></label>
                       <input type="text" placeholder="Lieu de la cellule" value={cellGroup} onChange={(e) => setCellGroup(e.target.value)} className="w-full bg-surface-container-low border border-outline-variant/30 rounded-2xl px-4 py-3 text-on-surface focus:outline-none focus:ring-2 focus:ring-secondary font-medium" />
                     </div>
+                  </div>
+
+                  {/* Signature Numérique */}
+                  <div className="pt-2">
+                    <SignaturePad
+                      value={signatureUrl}
+                      onChange={setSignatureUrl}
+                      label="Votre Signature Numérique (Dessinez ou Importez)"
+                    />
                   </div>
 
                   {/* Recap */}

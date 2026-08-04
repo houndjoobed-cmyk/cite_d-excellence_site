@@ -5,6 +5,7 @@ import { ChurchMember } from "@/lib/store/adminStore";
 import { QrCode, Printer, Download, Sparkles, Loader2 } from "lucide-react";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import officialSignature from "@/assets/signature.png";
 
 interface MemberCardProps {
   member: ChurchMember;
@@ -162,19 +163,56 @@ const CardContent = ({ member, isPdfMode = false }: { member: ChurchMember, isPd
 
       </div>
 
+      {/* Signatures Section: Direction & Membre */}
+      <div className={`pt-2.5 pb-2 border-t ${themeAccentBorder} grid grid-cols-2 gap-3 items-end relative z-10 text-[9px]`}>
+        {/* Signature Direction */}
+        <div className="text-center">
+          <span className="text-white/60 text-[8px] uppercase tracking-wider block font-semibold mb-1">
+            Le Pasteur Principal
+          </span>
+          <div className="h-8 bg-white/95 rounded-xl px-2 flex items-center justify-center border border-white/40 shadow-sm overflow-hidden">
+            <img
+              src={officialSignature.src || "/signature.png"}
+              alt="Signature Direction"
+              className="max-h-7 object-contain"
+              crossOrigin="anonymous"
+            />
+          </div>
+        </div>
+
+        {/* Signature Membre */}
+        <div className="text-center">
+          <span className="text-white/60 text-[8px] uppercase tracking-wider block font-semibold mb-1">
+            Signature du Titulaire
+          </span>
+          <div className="h-8 bg-white/95 rounded-xl px-2 flex items-center justify-center border border-white/40 shadow-sm overflow-hidden">
+            {member.signatureUrl ? (
+              <img
+                src={member.signatureUrl}
+                alt="Signature Membre"
+                className="max-h-7 object-contain"
+                crossOrigin="anonymous"
+              />
+            ) : (
+              <span className="text-[8px] italic text-slate-400 font-medium">Non renseignée</span>
+            )}
+          </div>
+        </div>
+      </div>
+
       {/* Card Footer: Address & QR Code */}
-      <div className={`pt-3 border-t ${themeAccentBorder} flex items-center justify-between relative z-10 text-[10px]`}>
+      <div className={`pt-2 border-t ${themeAccentBorder} flex items-center justify-between relative z-10 text-[10px]`}>
         <div>
-          <span className="text-white/50 block">Quartier & Résidence</span>
-          <span className="font-semibold text-white">{member.neighborhood}</span>
+          <span className="text-white/50 block text-[9px]">Quartier & Résidence</span>
+          <span className="font-semibold text-white text-xs">{member.neighborhood}</span>
         </div>
 
         {/* Dynamic Verification QR Code */}
-        <div className={`${themeAccentBg} p-1.5 rounded-xl shadow-md inline-block border ${themeAccentBorder}`}>
+        <div className={`${themeAccentBg} p-1 rounded-xl shadow-md inline-block border ${themeAccentBorder}`}>
           <img 
             src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(`https://cite-d-excellence-site.vercel.app/members/verify/${member.memberNumber}`)}&color=${themeQRColor}&bgcolor=${qrBgColor}`} 
             alt="QR Code Vérification"
-            className="w-10 h-10 rounded-sm"
+            className="w-9 h-9 rounded-sm"
             crossOrigin="anonymous"
           />
         </div>
